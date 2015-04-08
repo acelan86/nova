@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title> nova </title>
+        <link rel="stylesheet" type="text/css" href="styles/main.css" />
+        <link rel="stylesheet" type="text/css" href="lib/jqueryui/themes/base/jquery-ui.css" />
+    </head>
+    <body>
+        <header class="navigation">NOVA</header>
+        <!-- 左侧列表 -->
+        <aside class="thumb-list">
+            <ol>
+                <li class="item">
+                    <div class="item-mask"></div>
+                    <div class="item-content">
+                        <label class="item-order">1</label>
+                        <div class="page"></div>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="item-mask"></div>
+                    <div class="item-content">
+                        <label class="item-order">2</label>
+                        <div class="page"></div>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="item-mask"></div>
+                    <div class="item-content">
+                        <label class="item-order">3</label>
+                        <div class="page"></div>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="item-mask"></div>
+                    <div class="item-content">
+                        <label class="item-order">4</label>
+                        <div class="page"></div>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="item-mask"></div>
+                    <div class="item-content">
+                        <label class="item-order">5</label>
+                        <div class="page"></div>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="item-mask"></div>
+                    <div class="item-content">
+                        <label class="item-order">6</label>
+                        <div class="page"></div>
+                    </div>
+                </li>
+                <li class="item">
+                    <div class="item-mask"></div>
+                    <div class="item-content">
+                        <label class="item-order">7</label>
+                        <div class="page"></div>
+                    </div>
+                </li>
+            </ol>
+            <div class="add-page-button">+</div>
+        </aside>
+        <!-- 画布区域 -->
+        <section class="stage">
+            <div class="canvas-wrapper">
+                <div class="canvas">
+                    <div class="control"></div>
+                    <div class="control"></div>
+                    <div class="control"></div>
+                </div>
+            </div>
+        </section>
+        <!-- 模板选择 -->
+        <section class="page-template-selector">
+            <ul class="list">
+                <li class="item">
+                    <div class="page"></div>
+                </li>
+                <li class="item">
+                    <div class="page"></div>
+                </li>
+                <li class="item">
+                    <div class="page"></div>
+                </li>
+                <li class="item">
+                    <div class="page"></div>
+                </li>
+                <li class="item">
+                    <div class="page"></div>
+                </li>
+                <li class="item">
+                    <div class="page"></div>
+                </li>
+            </ul>
+        </section>
+        <!-- 属性配置面板 -->
+        <aside class="dashboard"></aside>
+
+        <script src="lib/requirejs/require.js"></script>
+        <script src="config.js"></script>
+        <script>
+            require(["app.js"], function (app) {
+                app.run();
+            });
+        </script>
+    </body>
+</html>

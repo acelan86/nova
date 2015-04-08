@@ -101,5 +101,5 @@ html{
     background-color: #007dcb;
 }
 .active .thumb-content{
-    border:8px solid #fc0;
+    outline:8px solid #fc0;
 }

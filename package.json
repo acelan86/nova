@@ -1,0 +1,27 @@
+{
+  "name": "nova",
+  "version": "0.1.0",
+  "author": "acelan",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/acelan86/nova.git"
+  },
+  "devDependencies": {
+    "gulp": "git://github.com/gulpjs/gulp#4.0",
+    "gulp-bower": "0.0.10",
+    "gulp-bower-normalize": "git://github.com/acelan86/gulp-bower-normalize.git",
+    "gulp-browserify": "^0.5.1",
+    "gulp-connect": "^2.2.0",
+    "gulp-imagemin": "^2.1.0",
+    "gulp-jshint": "^1.9.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-rev-all": "git://github.com/acelan86/gulp-rev-all.git",
+    "gulp-rimraf": "*",
+    "gulp-uglify": "^1.0.2",
+    "gulp-usemin": "^0.3.11",
+    "gulp-util": "^3.0.2",
+    "gulp-watch": "^4.2.3",
+    "main-bower-files": "^2.4.1",
+    "through2": "^0.6.3"
+  }
+}
