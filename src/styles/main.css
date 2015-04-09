@@ -19,12 +19,22 @@ html{
     height:45px;
 }
 .control{
+    left:0px;
+    top:0px;
+    width:200px;
+    height:100px;
+    outline: 1px solid #ccc;
+}
+.control.ui-draggable{
+    position:absolute;
+}
+.control-mask{
+    right:0px;
+    bottom:0px;
     position:absolute;
     left:0px;
     top:0px;
-    width:300px;
-    height:300px;
-    outline: 1px solid #ccc;
+    display:none;
 }
 .page{
     width:320px;
@@ -75,6 +85,13 @@ html{
     right:270px;
     bottom:0px;
     overflow:hidden;
+}
+.stage-helper{
+    position:absolute;
+    background-color:#fff;
+    opacity:.2;
+    outline:1px solid #000;
+    pointer-events: none;
 }
 .dashboard{
     position:absolute;
@@ -149,8 +166,10 @@ html{
     border:1px dotted #ccc;
 }
 
-.control-selected{
+.control-selected .control-mask{
     outline:1px solid #007afc;
+    z-index:89; /* resize 的四个小圆点默认的z-index是90，这里设置比他们低一点 */
+    display:block;
 }
 .control-selected .ui-resizable-se,
 .control-selected .ui-resizable-sw,
