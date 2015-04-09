@@ -1,4 +1,16 @@
 define(['jquery', 'jqueryui'], function ($) {
+    
+    $.extend($.ui.keyCode, {
+        DEL : 46,
+        A : 65,
+        Z : 90,
+        G : 71,
+        I : 73,
+        P : 80,
+        C : 67,
+        V : 86
+    });
+
     //管理当前选中的列表
     var Selection = (function () {
         var list = [];
@@ -96,6 +108,11 @@ define(['jquery', 'jqueryui'], function ($) {
             Selection.get().map(function (item) {
                 $(item).css(dir, parseInt($(item).css(dir), 10) + offset);
             });
+        },
+        selectAllControl: function () {
+            Control.all().each(function () {
+                api.selectControl(this);
+            });
         }
     };
 
@@ -178,23 +195,49 @@ define(['jquery', 'jqueryui'], function ($) {
             $(document)
                 .on('keydown', function (e) {
                     var step = 1;
-                    switch (e.keyCode) {
-                        //左移动
-                        case $.ui.keyCode.LEFT:
+                    //阻止浏览器回退键
+                    if (e.which === $.ui.keyCode.DEL) {
+                        e.preventDefault();
+                    } else if (e.which != $.ui.keyCode.BACKSPACE || (e.which == $.ui.keyCode.BACKSPACE && (e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA'))) {
+                        if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.which === $.ui.keyCode.A)) { //全选 command + A
+                            e.preventDefault();
+                            api.clearSelectControl();
+                        } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.A)) { //取消全选command + shift + A
+                            e.preventDefault();
+                            api.selectAllControl();
+                        } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.I)) { //显示隐藏tag command + i
+                            e.preventDefault();
+                        } else if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.which === $.ui.keyCode.P)) { //预览，编辑 command + shift + p
+                            //
+                        } else if ((e.metaKey || e.ctrlKey) && e.shiftkey && (e.which === $.ui.keyCode.Z)) {
+                            e.preventDefault();
+                            //recorder.redo();
+                        } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.Z)) {
+                            e.preventDefault();
+                            //recorder.restore();
+                        } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.C)) {
+                            if (!(e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA')) {
+                                e.preventDefault();
+                                //stageEvent.copySelected(e);
+                            }
+                        } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.V)) {
+                            if (!(e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA')) {
+                                e.preventDefault();
+                                //stageEvent.pasteSelected(e);
+                            }
+                        } else if (e.which === $.ui.keyCode.LEFT) {
                             api.moveSelectControl('left', -step);
-                            break;
-                        //右移动
-                        case $.ui.keyCode.RIGHT:
+                        } else if (e.which === $.ui.keyCode.RIGHT) {
                             api.moveSelectControl('left', step);
-                            break;
-                        //上移动
-                        case $.ui.keyCode.UP:
+                        } else if (e.which === $.ui.keyCode.UP) {
                             api.moveSelectControl('top', -step);
-                            break;
-                        //下移动
-                        case $.ui.keyCode.DOWN:
+                        } else if (e.which === $.ui.keyCode.DOWN) {
                             api.moveSelectControl('top', step);
-                            break;
+                        }
+                    } else {
+                        //删除
+                        stageEvent.removeSelected(e);
+                        e.preventDefault();
                     }
                 });
         },
