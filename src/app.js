@@ -1,4 +1,4 @@
-define(['jquery', 'jqmousewheel', 'jqueryui', 'scripts/selection'], function ($) {
+define(['jquery', 'jqmousewheel', 'jqueryui', 'scripts/selection', 'scripts/LayoutDashboard', "scripts/AnimateDashboard"], function ($) {
     return {
         run: function () {
             //设置鼠标滑轮缩放画布
@@ -25,6 +25,20 @@ define(['jquery', 'jqmousewheel', 'jqueryui', 'scripts/selection'], function ($)
             })();
 
             $('.stage').selection();
+
+            $('.dashboard')
+                .animatedashboard()
+                .on('animatedashboardchange', function (e, ui) {
+                    var selections = $('.stage').selection('getSelection');
+                    $.each(selections, function (i, $control) {
+                        $control.addClass('animated ' + ui.value);
+                        $control.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', (function (_control, animateName) {
+                            return function () {
+                                _control.removeClass('animated ' + animateName);
+                            };
+                        })($control, ui.value));
+                    });
+                });
         }
     };
 });

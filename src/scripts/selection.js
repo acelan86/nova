@@ -1,5 +1,6 @@
-define(['jquery', 'jqueryui'], function ($) {
-    
+define(['jquery', 'jqueryui', 'scripts/Control'], function ($) {
+    var Control = $.nova.Control;
+
     $.extend($.ui.keyCode, {
         DEL : 46,
         A : 65,
@@ -52,38 +53,15 @@ define(['jquery', 'jqueryui'], function ($) {
     //debug
     window.Selection = Selection;
 
-
-    //控件的选中，去除选中dom操作
-    var Control = (function () {
-        return {
-            all: function () {
-                return $('.control');
-            },
-            find: function (dom) {
-                return $(dom).closest('.control').get(0);
-            },
-            select: function (control) {
-                $(control)
-                    .addClass('control-selected')
-                    .resizable('enable');
-            },
-            deselect: function (control) {
-                $(control)
-                    .removeClass('control-selected')
-                    .resizable('disable');
-            }
-        }
-    })();
-
-
     var api = {
         singleSelectControl: function (control) {
+            var $control = $(control);
             var _has = Selection.has(control);
-            Selection.get().map(function (item) {
-                Control.deselect(item);
+            $.each(Selection.get(), function (i, $item) {
+                $item.Control('deselect');
             });
             Selection.clear();
-            Control.select(control);
+            $control.Control('select');
             Selection.add(control);
             //如果原来没有，那么需要触发一次选中事件
             if (!_has) {
@@ -91,22 +69,24 @@ define(['jquery', 'jqueryui'], function ($) {
             }
         },
         selectControl: function (control) {
-            Control.select(control);
+            var $control = $(control);
+            $control.Control('select');
             Selection.add(control);
         },
         deselectControl: function (control) {
-            Control.deselect(control);
+            var $control = $(control);
+            $control.Control('deselect');
             Selection.remove(control);
         },
         clearSelectControl: function () {
-            Selection.get().map(function (item) {
-                Control.deselect(item);
+            $.each(Selection.get(), function (i, $item) {
+                $item.Control('deselect');
             });
             Selection.clear();
         },
         moveSelectControl: function (dir, offset) {
-            Selection.get().map(function (item) {
-                $(item).css(dir, parseInt($(item).css(dir), 10) + offset);
+            $.each(Selection.get(), function (i, $item) {
+                $item.css(dir, parseInt($item.css(dir), 10) + offset);
             });
         },
         selectAllControl: function () {
@@ -123,21 +103,11 @@ define(['jquery', 'jqueryui'], function ($) {
             tolerance : 'touch'
         },
         _create: function () {
+            //创建辅助选择节点，用于形成选择区域框
             this.helper = $('<div class="stage-helper"></div>');
 
             //初始化control, 使control拥有拖拽和resize属性，并且初始状态是禁用resize的
-            $('.control')
-                .data('uuid', (+new Date()).toString())
-                .append('<div class="control-mask"></div>')
-                .resizable({
-                    helper : "ui-resizable-helper",
-                    //八个方向均可拖拽缩放
-                    handles : "n, e, s, w, ne, se, sw, nw"
-                })
-                .draggable({
-                    //containment : this.element
-                })
-                .resizable('disable');
+            $('.control').Control();
 
             //取消默认鼠标选中文字功能
             this.element.disableSelection();
@@ -242,7 +212,7 @@ define(['jquery', 'jqueryui'], function ($) {
                 });
         },
         _onclick: function (e) {
-            var control = Control.find(e.target);
+            var control = Control.findControl(e.target);
             //点中的是非控件, 取消当前选中, 并且触发选中空白区域事件，这时候应该展现对页过渡效果设置
             if (!control) {
                 api.clearSelectControl();
@@ -340,6 +310,10 @@ define(['jquery', 'jqueryui'], function ($) {
                 "mouseup": this._onclick
             });
             return false;
+        },
+
+        getSelection: function () {
+            return Selection.get();
         },
         _destroy: function() {
             this._mouseDestroy();

@@ -6,7 +6,8 @@ requirejs.config({
     paths: {
         jquery: "lib/jquery/dist/jquery",
         jqueryui: "lib/jqueryui/jquery-ui",
-        jqmousewheel: "lib/jquery-mousewheel/jquery.mousewheel"
+        jqmousewheel: "lib/jquery-mousewheel/jquery.mousewheel",
+        jquerytmpl: "lib/jquery-tmpl/jquery.tmpl"
     },
     shim: {
         jquery : {
@@ -15,7 +16,8 @@ requirejs.config({
     },
     map: {
         "*": {
-            css: "lib/require-css/css"
+            css: "lib/require-css/css",
+            text: "lib/text/text"
         }
     }
 });
