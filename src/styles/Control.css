@@ -20,19 +20,12 @@
     top:0px;
     display:none;
 }
-
 .control-selected .control-mask{
     outline:1px solid #007afc;
     z-index:89; /* resize 的四个小圆点默认的z-index是90，这里设置比他们低一点 */
     display:block;
 }
-.control-selected .ui-resizable-se,
-.control-selected .ui-resizable-sw,
-.control-selected .ui-resizable-ne,
-.control-selected .ui-resizable-nw{
-    border:1px solid #f00;
-    background:#fff;
-}
+
 .control-selected .ui-resizable-se,
 .control-selected .ui-resizable-sw,
 .control-selected .ui-resizable-ne,

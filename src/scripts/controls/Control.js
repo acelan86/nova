@@ -1,4 +1,4 @@
-define(['jquery', 'jqueryui', 'scripts/LayoutDashboard', 'css!styles/control.css'], function ($) {
+define(['jquery', 'ui', 'css!styles/control.css'], function ($) {
     var uid = 0;
 
     $.widget('nova.Control', {
@@ -11,7 +11,7 @@ define(['jquery', 'jqueryui', 'scripts/LayoutDashboard', 'css!styles/control.css
                 this.options.type,
                 (+new Date()).toString(36),
                 ++uid
-            ].join(':');
+            ].join('-');
         },
         _create: function () {
             this.element

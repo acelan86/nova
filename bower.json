@@ -12,7 +12,8 @@
     "jqueryui": "~1.11.4",
     "jquery-tmpl": "*",
     "text": "requirejs/text#~2.0.14",
-    "animate.css": "~3.2.6"
+    "animate.css": "~3.2.6",
+    "handlebars": "~3.0.0"
   },
   "license": "MIT",
   "ignore": [

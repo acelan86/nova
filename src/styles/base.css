@@ -1,0 +1,63 @@
+/**
+ * reset部分
+ */
+body, div, p, dl, dt, dd, ul, ol, li, hr, pre, fieldset, legend,
+input, button, textarea, form, img, h1, h2, h3, h4, h5, h6 {
+    outline: none;
+    margin:0;
+    padding:0;
+    font-family: "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+body,html{
+    font-size:12px;
+    color:#333;
+    -webkit-font-smoothing: antialiased;
+}
+input:focus{
+    outline:none;
+}
+h3{
+    font-size:14px;
+}
+h4{
+    font-size:12px;
+}
+
+fieldset, iframe, img {
+    border: 0;
+}
+
+table{
+    table-layout:fixed;
+    width:100%;
+}
+td  *{
+    vertical-align:middle;
+}
+
+a img {
+    display:block;
+}
+
+li {list-style: none;}
+
+/* 清除浮动 */
+.clearfix{
+    *zoom:1;
+}
+.clearfix:after{
+    content:'\20';
+    display:block;
+    height:0;
+    clear:both;
+}
+
+/* 小圆角 */
+.radius{
+    border-radius:3px;
+    -webkit-border-radius:3px;
+    -o-border-radius:3px;
+    -moz-border-radius:3px;
+    -ms-border-radius:3px;
+}

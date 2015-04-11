@@ -1,0 +1,29 @@
+.ui-buttonset .ui-button{
+    margin-right:-5px;
+    background-color:#fff;
+}
+.ui-buttonset .ui-state-active{
+    background-color:#157efb;
+    border-color:#157efb;
+}
+.ui-dash-text-style .ui-button-text-only .ui-button-text{
+    padding:3px 20px;
+}
+.ui-dash-text-align .ui-button-text-only .ui-button-text{
+    padding:3px 17px;
+}
+.ui-dash-text-vertical-align .ui-button-text-only .ui-button-text{
+    padding:3px 27px;
+}
+.ui-dash-aside .ui-dash-text-font-size.ui-spinner-input{
+    width:22px;
+}
+.ui-dash-text-font-family{
+    width:150px;
+}
+.ui-selectmenu-button{
+    background-color: #fff;
+}
+.ui-selectmenu-button span.ui-selectmenu-text{
+    padding:2px 2.1em 2px 1em;
+}

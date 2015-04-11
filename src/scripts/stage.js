@@ -1,4 +1,4 @@
-define(['jquery', 'jqueryui', 'scripts/Control'], function ($) {
+define(['jquery', 'ui', 'scripts/controls/Control'], function ($) {
     var Control = $.nova.Control;
 
     $.extend($.ui.keyCode, {
@@ -97,7 +97,7 @@ define(['jquery', 'jqueryui', 'scripts/Control'], function ($) {
     };
 
 
-    $.widget('ui.selection', $.ui.mouse, {
+    $.widget('ui.stage', $.ui.mouse, {
         options : {
             filter: '.control',
             tolerance : 'touch'

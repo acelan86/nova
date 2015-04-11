@@ -52,5 +52,15 @@
             </div>
         </section>
         <aside class="dashboard"></aside>
+
+        <!-- 模板内容 -->
+        <script type="text/x-nova-tmpl" id="tpl:dashboard">
+            <ul class="ui-dashboard-tabs">
+                {{#each tabs}}
+                    <li class="ui-dashboard-tab">{{this}}</li>
+                {{/each}}
+            <ul>
+            <section class="ui-dashboard-panel"></section>
+        </script>
     </body>
 </html>

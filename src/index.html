@@ -2,7 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title> nova </title>
+        <title> 新浪速站 </title>
+        <link rel="stylesheet" type="text/css" href="styles/base.css" />
         <link rel="stylesheet" type="text/css" href="styles/main.css" />
         <link rel="stylesheet" type="text/css" href="lib/jqueryui/themes/base/jquery-ui.css" />
         <link rel="stylesheet" type="text/css" href="lib/animate.css/animate.css"/>
@@ -100,11 +101,205 @@
         <!-- 属性配置面板 -->
         <aside class="dashboard"></aside>
 
+        <!-- *******************************************-->
+        <!-- 动画属性面板 -->
+        <script type="text/x-nova-tpl" id="tpl-dash-ani">
+            <ul class="ui-dash-tabs">
+                {{#each tabs}}
+                    <li class="ui-dash-tab" data-i="{{@index}}">{{label}}</li>
+                {{/each}}
+            </ul>
+            <section class="ui-dash-summary"></section>
+            <dl class="ui-dash-ani-delay ui-dash-block">
+                <dt class="ui-dash-title">延迟时间</dt>
+                <dd class="ui-dash-2-col">
+                    <div class="ui-dash-main">
+                        <div class="delay-slider"></div>
+                    </div>
+                    <div class="ui-dash-aside">
+                        <input class="delay-spinner"/>
+                    </div>
+                </dd>
+                <hr/>
+            </dl>
+            <dl class="ui-dash-ani-duration ui-dash-block">
+                <dt class="ui-dash-title">持续时间</dt>
+                <dd class="ui-dash-2-col">
+                    <div class="ui-dash-main">
+                        <div class="duration-slider"></div>
+                    </div>
+                    <div class="ui-dash-aside">
+                        <input class="duration-spinner"/>
+                    </div>
+                </dd>
+                <hr/>
+            </dl>
+            <dl class="ui-dash-ani-list ui-dash-block">
+                <dt class="ui-dash-title">控件效果列表</dt>
+                <dd>
+                    <ul class="ui-dash-ani-ul"></ul>
+                </dd>
+                <hr/>
+                <dd>
+                    <button class="add-button">添加效果</button>
+                </dd>
+            </dl>
+            <ul class="ui-ani-select-list ui-dash-pop"></ul>
+        </script>
+        <!-- 动画组模板 -->
+        <script type="text/x-nova-tpl" id="tpl-ani-select-group">
+            <section class="group">
+                <label class="groupname">{{label}}</label>
+                <ul>
+                    {{#each animates}}
+                    <li class="ani-item" data-name="{{this}}">{{this}}<span class="item-preview ani-item-opt-button" data-name="{{this}}">预览</span></li>
+                    {{/each}}
+                </ul>
+            </section>
+        </script>
+        <!-- 无控件效果摘要模板 -->
+        <script type="text/x-nova-tpl" id="tpl-ani-init-summary">
+            <dt class="init-ani-title">无控件效果</dt>
+            <dd>
+                <button class="new-button">添加效果</button>
+            </dd>
+        </script>
+        <!-- 有控件效果摘要模板 -->
+        <script type="text/x-nova-tpl" id="tpl-ani-modify-summary">
+            <dt class="modify-ani-title">{{name}}</dt>
+            <dd>
+                <button class="modify-button">更改</button>
+                <button class="preview-button" data-name="{{name}}">预览</button>
+            </dd>
+        </script>
+        <!-- 已有动画列表模板 -->
+        <script type="text/x-nova-tpl" id="tpl-ani-list">
+            {{#each animates}}
+            {{#if active}}
+                <li class="ani-item active" data-i="{{@index}}">
+                    {{name}}
+                    <span class="item-del ani-item-opt-button" data-i="{{@index}}">删除</span>
+                </li>
+            {{else}}
+                <li class="ani-item" data-i="{{@index}}">
+                    {{name}}
+                    <span class="item-del ani-item-opt-button" data-i="{{@index}}">删除</span>
+                </li>
+            {{/if}}
+            {{/each}}
+        </script>
+
+
+        <!-- *******************************************-->
+        <!-- 文字属性面板 -->
+        <script type="text/x-nova-tpl" id="tpl-dash-text">
+            <ul class="ui-dash-tabs">
+                {{#each tabs}}
+                    <li class="ui-dash-tab" data-i="{{@index}}">{{label}}</li>
+                {{/each}}
+            </ul>
+            <section class="ui-dash-summary">
+
+            </section>
+            <dl class="ui-dash-block">
+                <dt class="ui-dash-title">字体</dt>
+                <dd class="ui-dash-2-col">
+                    <div class="ui-dash-main">
+                        <select class="ui-dash-text-font-family">
+                            {{#each fontfamilys}}
+                            <option value="{{name}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="ui-dash-aside">
+                        <input class="ui-dash-text-font-size" /> 像素
+                    </div>
+                </dd>
+                <dd class="ui-dash-2-col">
+                    <div class="ui-dash-main ui-dash-text-style">
+                        <input type="checkbox" id="check1">
+                        <label for="check1"><b>B</b></label>
+                        <input type="checkbox" id="check2">
+                        <label for="check2"><i>I</i></label>
+                        <input type="checkbox" id="check3">
+                        <label for="check3"><u>U</u></label>
+                    </div>
+                    <div class="ui-dash-aside">
+                        <button>颜色</button>
+                    </div>
+                </dd>
+                <hr/>
+            </dl>
+            <dl class="ui-dash-block">
+                <dt class="ui-dash-title">对齐</dt>
+                <dd class="ui-dash-text-align">
+                    <input type="radio" name="align" id="check21">
+                    <label for="check21">左边</label>
+                    <input type="radio" name="align" id="check22">
+                    <label for="check22">中间</label>
+                    <input type="radio" name="align" id="check23">
+                    <label for="check23">右边</label>
+                    <input type="radio" name="align" id="check24">
+                    <label for="check24">两端</label>
+                </dd>
+                <dd class="ui-dash-text-vertical-align">
+                    <input type="radio" name="vertical-align" id="check31">
+                    <label for="check31">顶部</label>
+                    <input type="radio" name="vertical-align" id="check32">
+                    <label for="check32">居中</label>
+                    <input type="radio" name="vertical-align" id="check33">
+                    <label for="check33">底部</label>
+                </dd>
+                <hr/>
+            </dl>
+            <dl class="ui-dash-block">
+                <dt class="ui-dash-title">行高</dt>
+                <dd class="ui-dash-2-col">
+                    <input class="ui-dash-text-line-height"/> 倍
+                </dd>
+                <hr/>
+            </dl>
+            <ul class="ui-font-styleset-list ui-dash-pop">
+                {{#each fontStyleset}}
+                <li data-i="{{@index}}" class="ui-font-styleset-item item" style="
+                    color:{{color}};
+                    font-family:{{fontFamily}};
+                    font-style:{{fontStyle}};
+                    font-weight:{{fontWeight}};
+                    font-size:{{fontSize}}px;
+                    line-height:1.5em;
+                ">{{type}}</li>
+                {{/each}}
+            </ul>
+        </script>
+        <!--  文字摘要模板 -->
+        <script type="text/x-nova-tpl" id="tpl-text-view">
+            <div style="
+                    color:{{color}};
+                    font-family:{{fontFamily}};
+                    font-style:{{fontStyle}};
+                    font-weight:{{fontWeight}};
+                    font-size:{{fontSize}}px;
+                    line-height:45px;
+                ">{{type}}</div>
+        </script>
+
+
         <script src="lib/requirejs/require.js"></script>
         <script src="config.js"></script>
         <script>
-            require(["app.js"], function (app) {
+            require(["jquery", "app.js"], function ($, app) {
                 app.run();
+
+                //大白彩蛋
+                var title = document.title;
+                $(window)
+                    .on('blur', function () {
+                        document.title = '(●—●) 我在等你回来哦...';
+                    })
+                    .on('focus', function () {
+                        document.title = title;
+                    });
             });
         </script>
     </body>

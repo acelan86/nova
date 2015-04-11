@@ -1,4 +1,4 @@
-define(['text!templates/layout.html', 'jquery', 'jqueryui', 'jquerytmpl'], function (tpl, $) {
+define(['text!templates/layout.html', 'ui'], function (tpl, $) {
     $.widget('nova.LayoutDashboard', {
         options: {
             top: true,  //最前

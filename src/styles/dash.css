@@ -1,0 +1,87 @@
+.dashboard{
+    background-color:#f6f6f6;
+}
+.ui-dash-tabs{
+    overflow:hidden;
+}
+.ui-dash-tab{
+    float:left;   
+    line-height: 30px;
+    background: #d7d7d7;
+    border-top: 1px solid #f6f6f6;
+    border-bottom: 1px solid #c1c1c1;
+    font-size:12px;
+    text-align:center;
+    cursor:default;
+}
+.ui-dash-tabs .active{
+    background-color:#f6f6f6;
+    border-bottom: none;
+}
+
+.ui-dash-summary{
+    background:#fff;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+    padding:10px;
+}
+.ui-dash-summary dd{
+    width:240px;
+    margin:0px auto;
+}
+.ui-dash-summary dt{
+    line-height:40px;
+    text-align: center;
+    color:#ccc;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.ui-dash-block{
+    padding: 15px;
+    padding-bottom:0px;
+}
+.ui-dash-block dd{
+    margin-bottom:10px;
+}
+.ui-dash-block hr{
+    margin-top:20px;
+    height:0px;
+    border:none;
+    border-bottom:1px solid #ccc;
+}
+.ui-dash-title{
+    font-weight:bold;
+    line-height:25px;
+}
+
+.ui-dash-2-col{
+    overflow:hidden;
+}
+.ui-dash-2-col .ui-dash-main{
+    float:left;
+    width:150px;
+    margin-right:5px;
+}
+.ui-dash-2-col .ui-dash-aside{
+    float:left;
+    width:80px;
+}
+
+.ui-dash-pop{
+    background-color:#fff;
+    border:1px solid #ccc;
+    border-radius:6px;
+    overflow-y:scroll;
+    width:240px;
+    position:absolute;
+    display:none;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, .2);
+    z-index:200;
+}
+.ui-dash-pop .item{
+    padding:0px 10px;
+}
+.ui-dash-pop .item:hover{
+    background-color:#f6f6f6;
+};

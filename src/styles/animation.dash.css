@@ -1,0 +1,108 @@
+.ui-dash-summary .modify-ani-title{
+    color:#333;
+}
+
+.new-button {
+    display: block;
+    line-height: 25px;
+    width:200px;
+    background-color: #157efb;
+    color:#fff;
+    border:none;
+    border-radius: 4px;
+    margin:0px auto;
+}
+.modify-button,
+.preview-button,
+.add-button{
+    line-height: 20px;
+    width:110px;
+    background-color: #fff;
+    border:1px solid #ccc;
+    border-radius: 4px;
+}
+.add-button{
+    display:block;
+    margin:10px auto;
+}
+.modify-button{
+    margin-right:16px;
+}
+
+.ui-ani-select-list .groupname{
+    font-size:10px;
+    color:#ccc;
+    line-height:20px;
+    padding:5px;
+}
+.ani-item{
+    line-height:24px;
+    font-size:12px;
+    padding:0px 10px 0px 30px;
+    cursor:pointer;
+}
+.ui-dash-ani-ul .ani-item{
+    padding-left: 10px;
+    margin:5px 0px;
+    border-radius: 4px;
+}
+.ui-dash-ani-ul .active{
+    background:#d7d7d7;
+}
+.ani-item .ani-item-opt-button{
+    float:right;
+    line-height:24px;
+    margin-left:5px;
+    display:none;
+}
+.ani-item:hover{
+    background-color:#157efb;
+    color:#fff;
+}
+.ani-item:hover .ani-item-opt-button{
+    display:block;
+}
+.ui-ani-select-list .group{
+    border-bottom:1px solid #ccc;
+    padding:10px 0px;
+}
+.ui-ani-select-list .group:last-child{
+    border-bottom:none;
+}
+
+/* ui-slider */
+.ui-slider-horizontal{
+    height:3px;
+    background-color:#bbb;
+    border:none;
+}
+.ui-slider-range{
+    background-color:#157efb;
+}
+.ui-slider{
+    margin:10px 5px;
+}
+.ui-slider .ui-slider-handle{
+    width:10px;
+    height:10px;
+    border-radius: 10px;
+    outline:none;
+    background-color: #fff;
+}
+.ui-slider .ui-state-active{
+    background-color:#ddd;
+    border-color:#aaa;
+}
+.ui-slider-horizontal .ui-slider-handle{
+    top:-5px;
+    margin-left:-5px;
+}
+
+.ui-dash-aside .ui-spinner-input{
+    width:40px;
+}
+
+.ui-dash-ani-null .ui-dash-ani-delay,
+.ui-dash-ani-null .ui-dash-ani-duration{
+    display:none;
+}
