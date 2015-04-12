@@ -24,6 +24,9 @@
 .ui-selectmenu-button{
     background-color: #fff;
 }
+.ui-selectmenu-button:focus{
+    outline:none;
+}
 .ui-selectmenu-button span.ui-selectmenu-text{
     padding:2px 2.1em 2px 1em;
 }

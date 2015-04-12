@@ -131,6 +131,8 @@ define(['jquery', 'ui', 'scripts/controls/Control'], function ($) {
                             'otop': parseInt($item.css('top'), 10)
                         });
                     });
+                    //情况二，拖拽开始，触发选中控件逻辑
+                    this._postMessage(e);
 
                 },
                 "drag .control": function (e, ui) {
@@ -217,6 +219,7 @@ define(['jquery', 'ui', 'scripts/controls/Control'], function ($) {
             if (!control) {
                 api.clearSelectControl();
                 //触发点中空白区域事件
+                this._postMessage(e);
             //点中控件，选中控件逻辑
             } else {
                 if (e.metaKey || e.ctrlKey) {
@@ -228,6 +231,8 @@ define(['jquery', 'ui', 'scripts/controls/Control'], function ($) {
                 } else {
                     api.singleSelectControl(control);
                 }
+                //情况一， 点击控件，触发选中控件逻辑
+                this._postMessage(e);
             }
         },
         //缓存所有控件信息
@@ -306,10 +311,28 @@ define(['jquery', 'ui', 'scripts/controls/Control'], function ($) {
         _mouseStop : function (e) {
             this.dragged = false;
             this.helper.remove();
+
             this._on(this.element, {
                 "mouseup": this._onclick
             });
+
+            //情况三， 全局框选，触发选中控件
+            this._postMessage(e);
             return false;
+        },
+
+        //发送消息通知，触发事件
+        _postMessage: function (e) {
+            var selections = this.getSelection();
+            if (selections && selections.length > 0) {
+                this._trigger('activecontrol', e, {
+                    controls: selections
+                });
+            } else {
+                this._trigger('activepage', e, {
+                    index: parseInt($('.canvas').data('i'), 10)
+                });
+            }
         },
 
         getSelection: function () {

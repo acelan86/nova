@@ -21,7 +21,7 @@
 
 .ui-dash-summary{
     background:#fff;
-    border-bottom: 1px solid #ccc;
+    box-shadow:0px 1px 1px -1px rgba(0, 0, 0, .5);
     overflow: hidden;
     padding:10px;
 }
@@ -68,6 +68,17 @@
     width:80px;
 }
 
+.ui-dash-3-col{
+    overflow: hidden;
+}
+.ui-dash-3-col .ui-dash-main,
+.ui-dash-3-col .ui-dash-aside{
+    float:left;
+    width:70px;
+}
+.ui-dash-3-col .ui-dash-main{
+    margin:0px 8px;
+}
 .ui-dash-pop{
     background-color:#fff;
     border:1px solid #ccc;

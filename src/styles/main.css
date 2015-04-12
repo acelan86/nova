@@ -64,12 +64,14 @@ html{
     pointer-events: none;
 }
 .dashboard{
-    position:absolute;
+    /*position:absolute;
     right:0px;
     top:45px;
-    bottom:0px;
+    bottom:0px;*/
+    float:right;
     width:270px;
-    z-index:2;
+    z-index:100;
+    position: relative;
     background-color: #F6F6F6;
 }
 .canvas-wrapper{

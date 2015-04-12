@@ -1,4 +1,4 @@
-define(['jquery', 'scripts/stage', 'scripts/dashboards/animation', 'scripts/dashboards/text'], function ($) {
+define(['jquery', 'handlebars', 'scripts/stage', 'scripts/dashboards/animation', 'scripts/dashboards/style', 'scripts/dashboards/text', 'scripts/dashboards/dash', 'scripts/dashboards/page'], function ($, handlebars) {
     return {
         run: function () {
             //设置鼠标滑轮缩放画布
@@ -15,32 +15,54 @@ define(['jquery', 'scripts/stage', 'scripts/dashboards/animation', 'scripts/dash
             //         }
             //     });
             // })();
+            // 
+            //构造缩略图列表
             (function () {
+                var pages = new Array(10);
+                var tpl = handlebars.compile($('#tpl-thumb-list').text());
                 var $active = null;
-                $('.thumb-list').on('click', '.item', function (e) {
-                    $active && $active.removeClass('item-active');
-                    $(this).addClass('item-active');
-                    $active = $(this);
-                });
+
+                $('.thumb-list ol')
+                    .html(tpl({
+                        pages: pages
+                    }))
+                    .on('click', '.item', function (e) {
+                        $active && $active.removeClass('item-active');
+                        $(this).addClass('item-active');
+                        $active = $(this);
+                        $('.canvas').data('i', parseInt($active.data('i'), 10));
+                    });
             })();
 
             $('.stage').stage();
 
-            //animate dashboard
-            // $('.dashboard').animationdash()
-            //     .on('animationdashpreview', function (e, animate) {
-            //         var selections = $('.stage').stage('getSelection');
-            //         $.each(selections, function (i, $control) {
-            //             $control.addClass('animated ' + animate.name);
-            //             $control.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', (function (_control, animateName) {
-            //                 return function () {
-            //                     _control.removeClass('animated ' + animateName);
-            //                 };
-            //             })($control, animate.name));
-            //         });
-            //     });
+            $('.stage')
+                .on('stageactivepage', function (e, page) {
+                    console.log('active page', page);
+                })
+                .on('stageactivecontrol', function (e, controls) {
+                    console.log('active control', controls);
+                });
 
-            $('.dashboard').textdash();
+            //animate dashboard
+            $('.ani-dash').animationdash()
+                .on('animationdashpreview', function (e, animate) {
+                    var selections = $('.stage').stage('getSelection');
+                    $.each(selections, function (i, $control) {
+                        $control.addClass('animated ' + animate.name);
+                        $control.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', (function (_control, animateName) {
+                            return function () {
+                                _control.removeClass('animated ' + animateName);
+                            };
+                        })($control, animate.name));
+                    });
+                });
+
+            // $('.text-dash').textdash();
+
+            // $('.style-dash').styledash();
+            // //
+            // $('.page-dash').pagedash();
                 
         }
     };

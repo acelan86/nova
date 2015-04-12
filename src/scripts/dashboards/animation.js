@@ -1,4 +1,4 @@
-define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css', 'css!styles/animation.dash.css'], function ($, handlebars) {
+define(['jquery', 'handlebars', 'ui', 'scripts/dashboards/dash', 'css!styles/animation.dash.css'], function ($, handlebars) {
     var ENTRANCE_EFFECTS = {
         "bouncing": [
             'bounceIn',
@@ -109,7 +109,7 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css', 'css!styles/animati
         ]
     };
 
-    $.widget('nova.animationdash', {
+    $.widget('nova.animationdash', $.nova.dash, {
         props: {
             transition: [],
             entrance: [
@@ -154,29 +154,16 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css', 'css!styles/animati
             }
             return animate;
         },
-        _getActiveOptions: function () {
-            return this.options.tabs[this.options.active];
-        },
-        _getActiveProps: function () {
-            return this.props[this.options.tabs[this.options.active].type];
-        },
-        _mainTpl    : handlebars.compile($('#tpl-dash-ani').text()),
+        _additionTpl: handlebars.compile($('#tpl-dash-ani-addition').text()),
+
         _aniGroupTpl: handlebars.compile($('#tpl-ani-select-group').text()),
-        _summaryTpl : {
+        _summaryViewTpl : {
             init: handlebars.compile($('#tpl-ani-init-summary').text()),
             modify: handlebars.compile($('#tpl-ani-modify-summary').text())
         },
         _aniListTpl : handlebars.compile($('#tpl-ani-list').text()),
 
-        _create: function () {
-            this.element
-                .addClass('dash-ani')
-                .html(this._mainTpl(this.options));
-
-            //设置每个tab的宽度
-            this.element.find('.ui-dash-tab')
-                .width(this.element.width() / (this.options.tabs.length || 1));
-
+        _enhance: function () {
             //初始化delay slider
             this.delaySlider = this.element.find('.delay-slider')
                 .slider({
@@ -212,12 +199,7 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css', 'css!styles/animati
                     max: 10
                 });
 
-
-            this._init();
-
             this._on(this.element, {
-                //tab click
-                'click .ui-dash-tab': this._selectTabHandle,
                 //预览动画
                 'click .item-preview': this._previewHandle,
                 //点击item添加样式
@@ -250,17 +232,7 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css', 'css!styles/animati
         _init: function () {
             this._select(this.options.active);
         },
-        _select: function (index) {
-            var me = this;
-
-            this.options.active = index;
-
-            //渲染tab
-            this.element.find('.ui-dash-tab')
-                .removeClass('active')
-                .eq(this.options.active)
-                .addClass('active');
-
+        _refresh: function (index) {
             var activeOptions = this._getActiveOptions(),
                 activeProps = this._getActiveProps();
 
@@ -275,15 +247,15 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css', 'css!styles/animati
                 $('.ui-dash-ani-list').show();
             } else {
                 $('.ui-dash-ani-list').hide();
-            }
+            }    
         },
         _renderSummary: function () {
             var animate = this._getActiveAnimate();
             //根据是否有选中效果渲染
             this.element.find('.ui-dash-summary')
                 .html(animate ? 
-                    this._summaryTpl.modify(animate) :
-                    this._summaryTpl.init()
+                    this._summaryViewTpl.modify(animate) :
+                    this._summaryViewTpl.init()
                 );
         },
         _renderAnimateSelectList: function () {
@@ -299,9 +271,6 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css', 'css!styles/animati
 
             this.element.find('.ui-ani-select-list')
                 .html(html.join(''));
-        },
-        _selectTabHandle: function (e) {
-            this._select(parseInt($(e.target).data('i'), 10));
         },
         _previewHandle: function (e) {
             this._trigger('preview', e, {

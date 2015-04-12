@@ -1,5 +1,5 @@
-define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css', 'css!styles/text.dash.css'], function ($, handlebars) {
-    $.widget('nova.textdash', {
+define(['jquery', 'handlebars', 'ui', 'scripts/dashboards/dash', 'css!styles/text.dash.css'], function ($, handlebars) {
+    $.widget('nova.textdash', $.nova.dash, {
         props: {
             text: {}
         },
@@ -95,13 +95,9 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css', 'css!styles/text.da
             ],
             active: 0
         },
-        _mainTpl: handlebars.compile($('#tpl-dash-text').text()),
+        _additionTpl: handlebars.compile($('#tpl-dash-text-addition').text()),
         _textTpl: handlebars.compile($('#tpl-text-view').text()),
-        _create: function () {
-            this.element
-                .addClass('dash-ani')
-                .html(this._mainTpl(this.options));
-
+        _enhance: function () {
             //设置每个tab的宽度
             this.element.find('.ui-dash-tab')
                 .width(this.element.width() / (this.options.tabs.length || 1));
@@ -130,8 +126,6 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css', 'css!styles/text.da
             this.element.find('.ui-dash-text-line-height')
                 .spinner();
 
-            this._init();
-
             this._on(this.element, {
                 "click .ui-dash-summary": this._showFontStylesetHandle,
                 "click .ui-font-styleset-item": this._selectFontStylesetHandle
@@ -144,39 +138,8 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css', 'css!styles/text.da
         _init: function () {
             this._select(this.options.active);
         },
-        _select: function (index) {
-            var me = this;
-
-            this.options.active = index;
-
-            //渲染tab
-            this.element.find('.ui-dash-tab')
-                .removeClass('active')
-                .eq(this.options.active)
-                .addClass('active');
-
+        _refresh: function () {
             this._renderSummary();
-
-            //@todo render panel
-
-            // var activeOptions = this._getActiveOptions(),
-            //     activeProps = this._getActiveProps();
-
-            // //设置summary
-            // this._renderAnimateView();
-
-            // this._renderAnimateSelectList();
-
-            // //根据是否是允许多选展现动画列表
-            // if (activeOptions.muti) {
-            //     this._renderAnimateList();
-            //     $('.ui-dash-ani-list').show();
-            // } else {
-            //     $('.ui-dash-ani-list').hide();
-            // }
-        },
-        _getActiveProps: function () {
-            return this.props[this.options.tabs[this.options.active].type];
         },
         _renderSummary: function () {
             var defaultProps = this.options.fontStyleset[0];
@@ -185,7 +148,8 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css', 'css!styles/text.da
             if (!activeProps.type) {
                 $.extend(activeProps, defaultProps);
             }
-            $('.ui-dash-summary').html(this._textTpl(activeProps));
+            this.element.find('.ui-dash-summary')
+                .html(this._textTpl(activeProps));
         },
         _showFontStylesetHandle: function (e) {
             var $list = $('.ui-font-styleset-list');
