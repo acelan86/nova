@@ -1,0 +1,29 @@
+/* ui激活颜色 */
+$ui-status-active : #abcdef;
+
+/* 舞台 */
+$stage-zindex: 10;
+/* 画布 */
+$canvas-zindex: 20;
+/* 背景 */
+$page-background-zindex: 30;
+/* 前景 */
+$page-foreground-z-index: 81;
+
+$control-min-zindex:40;
+
+/* 控件实际层级为40 - 80*/
+
+$control-handler-zindex: 90; /* 控件的resize句柄 */
+$control-mask-zindex: $control-handler-zindex - 1; /* 控件遮罩 */
+
+$dashboard-zindex: 100; /* 属性面板 */
+$snaplist-zindex: $dashboard-zindex;  /*缩略图面板*/
+
+$ui-panel-zindex:500;  /* ui弹出面板 */
+
+$ui-tip: 900; /* 提示条 */
+
+$ui-mask: 1000; /* 全局遮罩 */
+
+$ui-dialog: 1100; /* 对话框 */
