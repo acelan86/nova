@@ -103,27 +103,27 @@ define(['jquery', 'handlebars', 'ui', 'scripts/dashboards/dash', 'css!styles/tex
                 .width(this.element.width() / (this.options.tabs.length || 1));
 
             //font-family
-            this.element.find('.ui-dash-text-font-family')
+            this.element.find('.font-family')
                 .selectmenu();
 
             //font-size
-            this.element.find('.ui-dash-text-font-size')
+            this.element.find('.font-size-spinner')
                 .spinner();
 
             //text-style
-            this.element.find('.ui-dash-text-style')
+            this.element.find('.font-style')
                 .buttonset();
 
             //text-align
-            this.element.find('.ui-dash-text-align')
+            this.element.find('.text-align')
                 .buttonset();
 
             //vertical-align
-            this.element.find('.ui-dash-text-vertical-align')
+            this.element.find('.vertical-align')
                 .buttonset();
 
             //line-height
-            this.element.find('.ui-dash-text-line-height')
+            this.element.find('.line-height-spinner')
                 .spinner();
 
             this._on(this.element, {
@@ -134,9 +134,6 @@ define(['jquery', 'handlebars', 'ui', 'scripts/dashboards/dash', 'css!styles/tex
             $(window).click(function () {
                 $('.ui-font-styleset-list').hide();
             });
-        },
-        _init: function () {
-            this._select(this.options.active);
         },
         _refresh: function () {
             this._renderSummary();

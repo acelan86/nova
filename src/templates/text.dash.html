@@ -1,0 +1,87 @@
+<!-- 文字属性面板 -->
+<script type="text/x-nova-tpl" id="tpl-dash-text-addition">
+    <dl class="ui-dash-block">
+        <dt class="ui-dash-title">字体</dt>
+        <dd class="ui-dash-2-col">
+            <div class="ui-dash-main">
+                <select class="font-family">
+                    {{#each fontfamilys}}
+                    <option value="{{name}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="ui-dash-aside">
+                <input class="font-size-spinner" /> 像素
+            </div>
+        </dd>
+        <dd class="ui-dash-2-col">
+            <div class="ui-dash-main font-style">
+                <input type="checkbox" id="check1">
+                <label for="check1"><b>B</b></label>
+                <input type="checkbox" id="check2">
+                <label for="check2"><i>I</i></label>
+                <input type="checkbox" id="check3">
+                <label for="check3"><u>U</u></label>
+            </div>
+            <div class="ui-dash-aside">
+                <div class="color"></div>
+            </div>
+        </dd>
+        <hr/>
+    </dl>
+    <dl class="ui-dash-block">
+        <dt class="ui-dash-title">对齐</dt>
+        <dd class="text-align">
+            <input type="radio" name="align" id="check21">
+            <label for="check21">左边</label>
+            <input type="radio" name="align" id="check22">
+            <label for="check22">中间</label>
+            <input type="radio" name="align" id="check23">
+            <label for="check23">右边</label>
+            <input type="radio" name="align" id="check24">
+            <label for="check24">两端</label>
+        </dd>
+        <dd class="vertical-align">
+            <input type="radio" name="vertical-align" id="check31">
+            <label for="check31">顶部</label>
+            <input type="radio" name="vertical-align" id="check32">
+            <label for="check32">居中</label>
+            <input type="radio" name="vertical-align" id="check33">
+            <label for="check33">底部</label>
+        </dd>
+        <hr/>
+    </dl>
+    <dl class="ui-dash-block">
+        <dt class="ui-dash-title">行高</dt>
+        <dd class="ui-dash-2-col">
+            <input class="line-height-spinner"/> 倍
+        </dd>
+        <hr/>
+    </dl>
+    <ul class="ui-font-styleset-list ui-dash-pop">
+        {{#each fontStyleset}}
+        <li data-i="{{@index}}" class="ui-font-styleset-item item" style="
+            color:{{color}};
+            font-family:{{fontFamily}};
+            font-style:{{fontStyle}};
+            font-weight:{{fontWeight}};
+            font-size:{{fontSize}}px;
+            line-height:1.5em;
+        ">{{type}}</li>
+        {{/each}}
+    </ul>
+</script>
+
+<!--  文字摘要模板 -->
+<script type="text/x-nova-tpl" id="tpl-text-view">
+    <div style="
+            float:left;
+            color:{{color}};
+            font-family:{{fontFamily}};
+            font-style:{{fontStyle}};
+            font-weight:{{fontWeight}};
+            font-size:{{fontSize}}px;
+            line-height:45px;
+        ">{{type}}</div>
+    <span class="ui-icon ui-icon-triangle-1-s" style="float:right;margin:14px 0px;"></span>
+</script>

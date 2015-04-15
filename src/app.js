@@ -1,7 +1,42 @@
-define(['jquery', 'handlebars', 'scripts/stage', 'scripts/dashboards/animation', 'scripts/dashboards/style', 'scripts/dashboards/text', 'scripts/dashboards/dash', 'scripts/dashboards/page'], function ($, handlebars) {
+define([
+    'jquery',
+    'handlebars',
+    'scripts/stage',
+    'scripts/dashboards/animation',
+    'scripts/dashboards/style',
+    'scripts/dashboards/text',
+    'scripts/dashboards/dash',
+    'scripts/dashboards/page',
+    'scripts/dashboards/image'
+], function ($, handlebars) {
     return {
         run: function () {
-            //设置鼠标滑轮缩放画布
+            (function () {
+                $('.navigation').buttonset();
+            })();
+
+            $('#check51').click(function () {
+                var selections;
+                $('.dashboard').remove();
+                if (selections = $('.stage').stage('getSelection'), selections.length === 1) {
+                    switch (selections[0].data('type')) {
+                        case 'text': 
+                            $('<div class="dashboard"/>')
+                                .appendTo($('body'))
+                                .textdash();
+                            break;
+                        default: 
+                            $('<div class="dashboard"/>')
+                                .appendTo($('body'))
+                                .imagedash();
+                    }
+                } else {
+                    $('<div class="dashboard"/>')
+                        .appendTo($('body'))
+                        .styledash();
+                }
+            });
+            //设置鼠标滑轮缩放画布å
             // (function () {
             //     var zoom = parseInt($('.canvas-wrapper').css('zoom') || 1, 10),
             //         max = 3,
@@ -36,26 +71,34 @@ define(['jquery', 'handlebars', 'scripts/stage', 'scripts/dashboards/animation',
 
             $('.stage').stage();
 
+            $('.dashboard').remove();
+            $('<div class="dashboard"/>')
+                .appendTo($('body'))
+                .pagedash();
+
             $('.stage')
                 .on('stageactivepage', function (e, page) {
-                    console.log('active page', page);
+                    $('.dashboard').remove();
+                    $('<div class="dashboard"/>')
+                        .appendTo($('body'))
+                        .pagedash();
                 })
                 .on('stageactivecontrol', function (e, controls) {
-                    console.log('active control', controls);
-                });
-
-            //animate dashboard
-            $('.ani-dash').animationdash()
-                .on('animationdashpreview', function (e, animate) {
-                    var selections = $('.stage').stage('getSelection');
-                    $.each(selections, function (i, $control) {
-                        $control.addClass('animated ' + animate.name);
-                        $control.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', (function (_control, animateName) {
-                            return function () {
-                                _control.removeClass('animated ' + animateName);
-                            };
-                        })($control, animate.name));
-                    });
+                    $('.dashboard').remove();
+                    $('<div class="dashboard"/>')
+                        .appendTo($('body'))
+                        .animationdash()
+                        .on('animationdashpreview', function (e, animate) {
+                            var selections = $('.stage').stage('getSelection');
+                            $.each(selections, function (i, $control) {
+                                $control.addClass('animated ' + animate.name);
+                                $control.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', (function (_control, animateName) {
+                                    return function () {
+                                        _control.removeClass('animated ' + animateName);
+                                    };
+                                })($control, animate.name));
+                            });
+                        });
                 });
 
             // $('.text-dash').textdash();

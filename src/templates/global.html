@@ -1,0 +1,23 @@
+<!-- 页面缩略图模板 -->
+ <script type="text/x-nova-tpl" id="tpl-thumb-list">
+    {{#each pages}}
+        <li class="item" data-i="{{@index}}">
+        <div class="item-mask"></div>
+        <div class="item-content">
+            <label class="item-order">{{@index}}</label>
+            <div class="page"></div>
+        </div>
+    </li>
+    {{/each}}
+</script>
+
+<!-- 属性面板 -->
+<script type="text/x-nova-tpl" id="tpl-dash">
+    <ul class="ui-dash-tabs">
+        {{#each tabs}}
+            <li class="ui-dash-tab" data-i="{{@index}}">{{label}}</li>
+        {{/each}}
+    </ul>
+    <section class="ui-dash-summary"></section>
+    <section class="ui-dash-addition"></section>
+</script>

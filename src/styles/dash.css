@@ -54,6 +54,9 @@
     font-weight:bold;
     line-height:25px;
 }
+.ui-dash-subtitle{
+    display:block;
+}
 
 .ui-dash-2-col{
     overflow:hidden;

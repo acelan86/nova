@@ -91,6 +91,7 @@ define(['jquery', 'handlebars', 'ui', 'scripts/dashboards/dash', 'css!styles/ani
             'flipOutY'
         ],
         "specials": [
+            'hinge',
             'rollOut',
             'lightSpeedOut'
         ]
@@ -359,12 +360,13 @@ define(['jquery', 'handlebars', 'ui', 'scripts/dashboards/dash', 'css!styles/ani
                     item.active = false;
                 });
 
-                data.push({
+                animate = {
                     name: name,
                     delay: 0,
                     duration: 1,
                     active: true
-                });
+                };
+                data.push(animate);
             } else {
                 animate = this._getActiveAnimate();
                 animate.name = name;
@@ -406,6 +408,9 @@ define(['jquery', 'handlebars', 'ui', 'scripts/dashboards/dash', 'css!styles/ani
                         animates: animates
                     })
                 );
+        },
+        _destroy: function () {
+            console.log('animation dash destroy');
         }
 
     });

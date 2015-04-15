@@ -9,7 +9,14 @@
         <link rel="stylesheet" type="text/css" href="lib/animate.css/animate.css"/>
     </head>
     <body>
-        <header class="navigation">NOVA</header>
+        <header class="navigation">
+            <input type="radio" name="dash-type" id="check51">
+            <label for="check51">格式</label>
+            <input type="radio" name="dash-type" id="check52">
+            <label for="check52">效果</label>
+            <input type="radio" name="dash-type" id="check53">
+            <label for="check53">文档</label>
+        </header>
         <!-- 左侧列表 -->
         <aside class="thumb-list">
             <ol></ol>
@@ -19,9 +26,9 @@
         <section class="stage">
             <div class="canvas-wrapper">
                 <div class="canvas">
-                    <div class="control" style="background:yellow">1</div>
-                    <div class="control" style="background:green">2</div>
-                    <div class="control" style="background:red">3</div>
+                    <div class="control" data-type="text" style="background:yellow">text</div>
+                    <div class="control" data-type="image" style="background:green">image</div>
+                    <div class="control" data-type="image" style="background:red">3</div>
                 </div>
             </div>
         </section>
@@ -49,319 +56,15 @@
             </ul>
         </section>
         <!-- 属性配置面板 -->
-        <aside class="dashboard ani-dash"></aside>
-        <aside class="dashboard text-dash"></aside>
-        <aside class="dashboard style-dash"></aside>
-        <aside class="dashboard page-dash"></aside>
-
-        <!-- *********************************** -->
-        <!-- 页面缩略图模板 -->
-         <script type="text/x-nova-tpl" id="tpl-thumb-list">
-            {{#each pages}}
-                <li class="item" data-i="{{@index}}">
-                <div class="item-mask"></div>
-                <div class="item-content">
-                    <label class="item-order">{{@index}}</label>
-                    <div class="page"></div>
-                </div>
-            </li>
-            {{/each}}
-        </script>
-        <!-- 属性面板 -->
-        <script type="text/x-nova-tpl" id="tpl-dash">
-            <ul class="ui-dash-tabs">
-                {{#each tabs}}
-                    <li class="ui-dash-tab" data-i="{{@index}}">{{label}}</li>
-                {{/each}}
-            </ul>
-            <section class="ui-dash-summary"></section>
-            <section class="ui-dash-addition"></section>
-        </script>
-
-        <!-- *******************************************-->
-        <!-- 动画属性面板 -->
-        <script type="text/x-nova-tpl" id="tpl-dash-ani-addition">
-            <dl class="ui-dash-ani-delay ui-dash-block">
-                <dt class="ui-dash-title">延迟时间</dt>
-                <dd class="ui-dash-2-col">
-                    <div class="ui-dash-main">
-                        <div class="delay-slider"></div>
-                    </div>
-                    <div class="ui-dash-aside">
-                        <input class="delay-spinner"/>
-                    </div>
-                </dd>
-                <hr/>
-            </dl>
-            <dl class="ui-dash-ani-duration ui-dash-block">
-                <dt class="ui-dash-title">持续时间</dt>
-                <dd class="ui-dash-2-col">
-                    <div class="ui-dash-main">
-                        <div class="duration-slider"></div>
-                    </div>
-                    <div class="ui-dash-aside">
-                        <input class="duration-spinner"/>
-                    </div>
-                </dd>
-                <hr/>
-            </dl>
-            <dl class="ui-dash-ani-list ui-dash-block">
-                <dt class="ui-dash-title">控件效果列表</dt>
-                <dd>
-                    <ul class="ui-dash-ani-ul"></ul>
-                </dd>
-                <hr/>
-                <dd>
-                    <button class="add-button">添加效果</button>
-                </dd>
-            </dl>
-            <ul class="ui-ani-select-list ui-dash-pop"></ul>
-        </script>
-        <!-- 动画组模板 -->
-        <script type="text/x-nova-tpl" id="tpl-ani-select-group">
-            <section class="group">
-                <label class="groupname">{{label}}</label>
-                <ul>
-                    {{#each animates}}
-                    <li class="ani-item" data-name="{{this}}">{{this}}<span class="item-preview ani-item-opt-button" data-name="{{this}}">预览</span></li>
-                    {{/each}}
-                </ul>
-            </section>
-        </script>
-        <!-- 无控件效果摘要模板 -->
-        <script type="text/x-nova-tpl" id="tpl-ani-init-summary">
-            <dt class="init-ani-title">无控件效果</dt>
-            <dd>
-                <button class="new-button">添加效果</button>
-            </dd>
-        </script>
-        <!-- 有控件效果摘要模板 -->
-        <script type="text/x-nova-tpl" id="tpl-ani-modify-summary">
-            <dt class="modify-ani-title">{{name}}</dt>
-            <dd>
-                <button class="modify-button">更改</button>
-                <button class="preview-button" data-name="{{name}}">预览</button>
-            </dd>
-        </script>
-        <!-- 已有动画列表模板 -->
-        <script type="text/x-nova-tpl" id="tpl-ani-list">
-            {{#each animates}}
-            {{#if active}}
-                <li class="ani-item active" data-i="{{@index}}">
-                    {{name}}
-                    <span class="item-del ani-item-opt-button" data-i="{{@index}}">删除</span>
-                </li>
-            {{else}}
-                <li class="ani-item" data-i="{{@index}}">
-                    {{name}}
-                    <span class="item-del ani-item-opt-button" data-i="{{@index}}">删除</span>
-                </li>
-            {{/if}}
-            {{/each}}
-        </script>
+        <aside class="dashboard-wrapper">
+            <section class="dashboard"></section>
+        </aside>
 
 
-        <!-- *******************************************-->
-        <!-- 文字属性面板 -->
-        <script type="text/x-nova-tpl" id="tpl-dash-text-addition">
-            <dl class="ui-dash-block">
-                <dt class="ui-dash-title">字体</dt>
-                <dd class="ui-dash-2-col">
-                    <div class="ui-dash-main">
-                        <select class="ui-dash-text-font-family">
-                            {{#each fontfamilys}}
-                            <option value="{{name}}">{{name}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-                    <div class="ui-dash-aside">
-                        <input class="ui-dash-text-font-size" /> 像素
-                    </div>
-                </dd>
-                <dd class="ui-dash-2-col">
-                    <div class="ui-dash-main ui-dash-text-style">
-                        <input type="checkbox" id="check1">
-                        <label for="check1"><b>B</b></label>
-                        <input type="checkbox" id="check2">
-                        <label for="check2"><i>I</i></label>
-                        <input type="checkbox" id="check3">
-                        <label for="check3"><u>U</u></label>
-                    </div>
-                    <div class="ui-dash-aside">
-                        <button>颜色</button>
-                    </div>
-                </dd>
-                <hr/>
-            </dl>
-            <dl class="ui-dash-block">
-                <dt class="ui-dash-title">对齐</dt>
-                <dd class="ui-dash-text-align">
-                    <input type="radio" name="align" id="check21">
-                    <label for="check21">左边</label>
-                    <input type="radio" name="align" id="check22">
-                    <label for="check22">中间</label>
-                    <input type="radio" name="align" id="check23">
-                    <label for="check23">右边</label>
-                    <input type="radio" name="align" id="check24">
-                    <label for="check24">两端</label>
-                </dd>
-                <dd class="ui-dash-text-vertical-align">
-                    <input type="radio" name="vertical-align" id="check31">
-                    <label for="check31">顶部</label>
-                    <input type="radio" name="vertical-align" id="check32">
-                    <label for="check32">居中</label>
-                    <input type="radio" name="vertical-align" id="check33">
-                    <label for="check33">底部</label>
-                </dd>
-                <hr/>
-            </dl>
-            <dl class="ui-dash-block">
-                <dt class="ui-dash-title">行高</dt>
-                <dd class="ui-dash-2-col">
-                    <input class="ui-dash-text-line-height"/> 倍
-                </dd>
-                <hr/>
-            </dl>
-            <ul class="ui-font-styleset-list ui-dash-pop">
-                {{#each fontStyleset}}
-                <li data-i="{{@index}}" class="ui-font-styleset-item item" style="
-                    color:{{color}};
-                    font-family:{{fontFamily}};
-                    font-style:{{fontStyle}};
-                    font-weight:{{fontWeight}};
-                    font-size:{{fontSize}}px;
-                    line-height:1.5em;
-                ">{{type}}</li>
-                {{/each}}
-            </ul>
-        </script>
-        <!--  文字摘要模板 -->
-        <script type="text/x-nova-tpl" id="tpl-text-view">
-            <div style="
-                    float:left;
-                    color:{{color}};
-                    font-family:{{fontFamily}};
-                    font-style:{{fontStyle}};
-                    font-weight:{{fontWeight}};
-                    font-size:{{fontSize}}px;
-                    line-height:45px;
-                ">{{type}}</div>
-            <span class="ui-icon ui-icon-triangle-1-s" style="float:right;margin:14px 0px;"></span>
-        </script>
-
-
-        <!-- **************************************-->
-        <!-- 样式属性模板 -->
-        <script type="text/x-nova-tpl" id="tpl-dash-style-addition">
-            <dl class="ui-dash-style-background ui-dash-block">
-                <dt class="ui-dash-title">填充</dt>
-                <dd class="ui-dash-2-col">
-                    <button>颜色</button>
-                </dd>
-                <hr/>
-            </dl>
-            <dl class="ui-dash-style-border ui-dash-block">
-                <dt class="ui-dash-title">边框</dt>
-                <dd class="ui-dash-3-col">
-                    <div class="ui-dash-aside">
-                        <select>
-                            <option>无</option>
-                            <option>实线</option>
-                            <option>虚线</option>
-                        </select>
-                    </div>
-                    <div class="ui-dash-main">
-                        <button>颜色</button>
-                    </div>
-                    <div class="ui-dash-aside">
-                        <input class="border-width-spinner"/>
-                    </div>
-                </dd>
-                <hr/>
-            </dl>
-            <dl class="ui-dash-style-shadow ui-dash-block">
-                <dt class="ui-dash-title">阴影</dt>
-                <dd>
-                    <select>
-                        <option>无</option>
-                        <option>阴影</option>
-                    </select>
-                </dd>
-                <dd class="ui-dash-2-col">
-                    <div class="ui-dash-main">
-                        <div class="shadow-blur-slider"></div>
-                    </div>
-                    <div class="ui-dash-aside">
-                        <input class="shadow-blur-spinner"/>
-                    </div>
-                </dd>
-                <dd class="ui-dash-2-col">
-                    <div class="ui-dash-main">
-                        <div class="shadow-offset-slider"></div>
-                    </div>
-                    <div class="ui-dash-aside">
-                        <input class="shadow-offset-spinner"/>
-                    </div>
-                </dd>
-                <dd class="ui-dash-2-col">
-                    <div class="ui-dash-main">
-                        <div class="shadow-opacity-slider"></div>
-                    </div>
-                    <div class="ui-dash-aside">
-                        <input class="shadow-opacity-spinner"/>
-                    </div>
-                </dd>
-                <dd class="ui-dash-2-col">
-                    <button>颜色</button>
-                </dd>
-                <hr/>
-            </dl>
-            <dl class="ui-dash-style-opacity ui-dash-block">
-                <dt class="ui-dash-title">不透明度</dt>
-                <dd class="ui-dash-2-col">
-                    <div class="ui-dash-main">
-                        <div class="opacity-slider"></div>
-                    </div>
-                    <div class="ui-dash-aside">
-                        <input class="opacity-spinner"/>
-                    </div>
-                </dd>
-                <hr/>
-            </dl>
-        </script>
-
-        <!-- ********************************** -->
-        <!-- 页属性模板 -->
-        <script type="text/x-nova-tpl" id="tpl-dash-page-addition">
-            <dl class="ui-dash-page-background ui-dash-block">
-                <dt class="ui-dash-title">背景</dt>
-                <dd>
-                    <select>
-                        <option>无</option>
-                        <option>颜色</option>
-                        <option>图片</option>
-                    </select>
-                </dd>
-                <dd>
-                    <button>颜色</button>
-                </dd>
-                <hr/>
-            </dl>
-            <dl class="ui-dash-page-foreground ui-dash-block">
-                <dt class="ui-dash-title">前景</dt>
-                <dd>
-                    <select>
-                        <option>无</option>
-                        <option>颜色</option>
-                        <option>图片</option>
-                    </select>
-                </dd>
-                <dd>
-                    <button>颜色</button>
-                </dd>
-                <hr/>
-            </dl>
-        </script>
+        <!-- ************引用模板************** -->
+        <!--include "./src/templates/global.html"-->
+        <!--include "./src/templates/animation.dash.html"-->
+        <!--include "./src/templates/text.dash.html"-->
 
 
         <script src="lib/requirejs/require.js"></script>
@@ -374,7 +77,7 @@
                 var title = document.title;
                 $(window)
                     .on('blur', function () {
-                        document.title = '(●—●) 我在等你回来哦...';
+                        document.title = '(●—●) 我在这儿等着你归来～等着你归来～';
                     })
                     .on('focus', function () {
                         document.title = title;

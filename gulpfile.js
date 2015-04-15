@@ -84,6 +84,16 @@ gulp.task(function src2dev() {
         .pipe(gulp.dest(paths.dev));
 });
 
+//1.1 include html tpl src.html -> dev .html
+gulp.task(function includeTpl() {
+    var contentIncluder = require('gulp-content-includer');
+    return gulp.src(paths.src + "/**/*.html")
+        .pipe(contentIncluder({
+            includerReg: /<!\-\-\s*include\s+"([^"]+)"\s*\-\->/g
+        }))
+        .pipe(gulp.dest(paths.dev));
+});
+
 //2. bower/files -> dev/lib
 gulp.task(function buildBowerFile() {
     var mainBowerFiles = require("main-bower-files");
@@ -102,8 +112,17 @@ gulp.task(function buildBowerFile() {
         .pipe(gulp.dest(paths.dev + "/lib"));
 });
 
+//3. compile  [styles]  dev -> dev
+gulp.task(function compile() {
+    var sass = require("gulp-sass");
+
+    return gulp.src(paths.dev + "/**/*.css")
+        .pipe(sass())
+        .pipe(gulp.dest(paths.dev));
+});
+
 //4、server & watch
-gulp.task("dev", gulp.series("bowerinstall", "clean_dev", "src2dev", "buildBowerFile"));
+gulp.task("dev", gulp.series("bowerinstall", "clean_dev", "src2dev", "includeTpl", "buildBowerFile", "compile"));
 
 
 /**
@@ -113,7 +132,7 @@ gulp.task("dev", gulp.series("bowerinstall", "clean_dev", "src2dev", "buildBower
 
 //1. dev -> tmp
 gulp.task(function dev2tmp() {
-    return gulp.src(paths.dev + "/**/*")
+    return gulp.src([paths.dev + "/**/*"])
         .pipe(gulp.dest(paths.tmp));
 });
 
@@ -159,63 +178,6 @@ gulp.task(function rev() {
         .pipe(gulp.dest(paths.dist));
 });
 
-// //rev-manifest.json -> routers.js (给应用使用)
-// gulp.task(function build_routers() {
-//     var through = require('through2');
-//     var patho = require('path');
-//     var revall = require("gulp-rev-all");
-
-//     function build(options) {
-//         var options = options || {};
-//         var fileName = options.fileName || "routers.js";
-//         var prefix = options.prefix || "scripts/module/";
-
-
-//         return through.obj(
-//             //filter routers -> routers.js
-//             function (file, encoding, callback) {
-//                 var filePath = file.path;
-//                 var cwd = file.cwd;
-
-//                 var revmap = JSON.parse(file.contents.toString()),
-//                     result = {},
-//                     replaceRegx = new RegExp('^' + prefix.replace(/\//g, '\\/'));
-//                 for (var path in revmap) {
-//                     //以scripts/module开头的约定为路由规则
-//                     if (0 === path.indexOf(prefix)) {
-//                         result[path.replace(replaceRegx, '').replace(/\.js$/, '')] = revmap[path].slice(1).replace(/\.js/, '');
-//                     }
-//                 }
-//                 this.push(new gutil.File({
-//                     cwd: file.cwd,
-//                     base: file.base,
-//                     path: patho.join(file.base, fileName),
-//                     contents: new Buffer('window._APP_ROUTER_MAP = ' + JSON.stringify(result) + ";")
-//                 }));
-//                 callback();
-//             }
-//         );
-//     }
-
-//     return gulp.src(paths.dist + "/" + paths.revmanifest)
-//         .pipe(build())
-//         .pipe(gulp.dest(paths.tmp));
-// });
-
-//rev agains, so dirty~
-// gulp.task(function rev_routers() {
-//     var revall = require("gulp-rev-all");
-
-//     return gulp.src([paths.tmp + "/" + paths.routers, paths.tmp + "/**/*.html"])
-//         .pipe(revall(revallConfig))
-//         .pipe(gulp.dest(paths.dist));
-// });
-
-// gulp.task(function watch() {
-//     var watch = require('gulp-watch');
-//     watch('src/**/*')
-//         .pipe(gulp.parallel("dev"));
-// });
 //4. clean tmp
 gulp.task("deploy", gulp.series("clean_tmp", "clean_dist", "dev2tmp", "usemin", "optimize_js", "optimize_image", "rev", "clean_tmp"));
 
@@ -224,4 +186,5 @@ gulp.task("deploy", gulp.series("clean_tmp", "clean_dist", "dev2tmp", "usemin", 
  */
 gulp.task("default", gulp.parallel("dev", "connect"));
 gulp.task("connect", gulp.series("connect"));
+gulp.task("tpl", gulp.series("includeTpl"));
 

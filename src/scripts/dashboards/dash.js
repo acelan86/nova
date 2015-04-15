@@ -64,6 +64,9 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css'], function ($, handl
         //增加面板的具体结构，增强ui
         _enhance: $.noop,
         //渲染面板的方法
-        _refresh: $.noop
+        _refresh: $.noop,
+        _destroy: function () {
+            console.log('dash destroy');
+        }
     });
 });

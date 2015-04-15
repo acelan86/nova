@@ -1,24 +1,26 @@
+@import "_variables.css";
+
 .ui-buttonset .ui-button{
     margin-right:-5px;
     background-color:#fff;
 }
 .ui-buttonset .ui-state-active{
-    background-color:#157efb;
-    border-color:#157efb;
+    background-color: #007afc;
+    border-color: #007afc;
 }
-.ui-dash-text-style .ui-button-text-only .ui-button-text{
+.font-style .ui-button-text-only .ui-button-text{
     padding:3px 20px;
 }
-.ui-dash-text-align .ui-button-text-only .ui-button-text{
+.text-align .ui-button-text-only .ui-button-text{
     padding:3px 17px;
 }
-.ui-dash-text-vertical-align .ui-button-text-only .ui-button-text{
+.vertical-align .ui-button-text-only .ui-button-text{
     padding:3px 27px;
 }
-.ui-dash-aside .ui-dash-text-font-size.ui-spinner-input{
+.ui-dash-aside .font-size-spinner.ui-spinner-input{
     width:22px;
 }
-.ui-dash-text-font-family{
+.font-family{
     width:150px;
 }
 .ui-selectmenu-button{

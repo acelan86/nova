@@ -1,5 +1,5 @@
 define(['text!templates/layout.html', 'ui'], function (tpl, $) {
-    $.widget('nova.LayoutDashboard', {
+    $.widget('nova.layoutdash', {
         options: {
             top: true,  //最前
             bottom: false, //最后
