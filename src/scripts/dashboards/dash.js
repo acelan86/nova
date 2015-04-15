@@ -22,7 +22,7 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css'], function ($, handl
         _tpl: handlebars.compile($('#tpl-dash').text()),
         _create: function () {
             this.element
-                .addClass('dash ' + this.options.type)
+                .addClass('ui-dash ' + 'ui-dash' + this.options.type)
                 .html(this._tpl(this.options));
 
             //设置每个tab的宽度
@@ -56,7 +56,7 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css'], function ($, handl
                 .eq(this.options.active)
                 .addClass('active');
 
-            this._refresh();
+            this._refreshView();
         },
         _selectTabHandle: function (e) {
             this._select(parseInt($(e.target).data('i'), 10));
@@ -67,6 +67,16 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/dash.css'], function ($, handl
         _refresh: $.noop,
         _destroy: function () {
             console.log('dash destroy');
+        },
+        _refreshView: function () {
+            this._refresh();
+            //调整addition高度
+            this.element.find('.ui-dash-addition')
+                .height(
+                    parseInt(this.element.css('height'), 10) -
+                    parseInt(this.element.find('.ui-dash-summary').css('height'), 10) -
+                    parseInt(this.element.find('.ui-dash-tabs').css('height'), 10)
+                );
         }
     });
 });

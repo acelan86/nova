@@ -1,3 +1,5 @@
+@import "_variables";
+
 html{
     background-color:#57585d;
 }
@@ -46,7 +48,7 @@ html{
     left:0px;
     right:0px;
     text-align: center;
-    z-index: 3;
+    z-index: $snaplist-zindex+10;
 }
 .stage{
     position:absolute;
@@ -69,7 +71,7 @@ html{
     top:45px;
     bottom:0px;
     width:270px;
-    z-index:100;
+    z-index:$dashboard-zindex;
     background-color: #F6F6F6;
 }
 .canvas-wrapper{
@@ -101,7 +103,7 @@ html{
     font-size:12px;
 }
 .item-active{
-    background-color: #157efb;
+    background-color: $ui-state-active;
 }
 .item-active .page{
     outline:8px solid #fc0;
@@ -116,7 +118,7 @@ html{
     left:0px;
     right:0px;
     background:#fff;
-    z-index:10;
+    z-index:$ui-panel-zindex;
 }
 .page-template-selector .page{
     width:80px;
@@ -127,6 +129,6 @@ html{
 }
 .page-template-selector .item{
     float:left;
-    border:1px solid #ccc;
+    border:$ui-1px-border;
     margin:10px;
 }

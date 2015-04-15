@@ -1,3 +1,5 @@
+@import "_variables";
+
 .dashboard{
     background-color:#f6f6f6;
 }
@@ -7,7 +9,7 @@
 .ui-dash-tab{
     float:left;   
     line-height: 30px;
-    background: #d7d7d7;
+    background: $ui-state-hover;
     border-top: 1px solid #f6f6f6;
     border-bottom: 1px solid #c1c1c1;
     font-size:12px;
@@ -21,9 +23,10 @@
 
 .ui-dash-summary{
     background:#fff;
-    box-shadow:0px 1px 1px -1px rgba(0, 0, 0, .5);
+    border-bottom:$ui-1px-border;
     overflow: hidden;
     padding:10px;
+    box-sizing: border-box;
 }
 .ui-dash-summary dd{
     width:240px;
@@ -37,6 +40,11 @@
     font-weight:bold;
 }
 
+.ui-dash-addition{
+    box-sizing:border-box;
+    overflow-y:scroll;
+}
+
 .ui-dash-block{
     padding: 15px;
     padding-bottom:0px;
@@ -48,7 +56,7 @@
     margin-top:20px;
     height:0px;
     border:none;
-    border-bottom:1px solid #ccc;
+    border-bottom:$ui-1px-border;
 }
 .ui-dash-title{
     font-weight:bold;
@@ -64,7 +72,7 @@
 .ui-dash-2-col .ui-dash-main{
     float:left;
     width:150px;
-    margin-right:5px;
+    margin-right:$ui-panel-padding;
 }
 .ui-dash-2-col .ui-dash-aside{
     float:left;
@@ -83,19 +91,19 @@
     margin:0px 8px;
 }
 .ui-dash-pop{
-    background-color:#fff;
-    border:1px solid #ccc;
-    border-radius:6px;
+    background-color: $ui-background-color;
+    border:$ui-1px-border;
+    border-radius:$ui-radius;
     overflow-y:scroll;
     width:240px;
     position:absolute;
     display:none;
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, .2);
-    z-index:200;
+    box-shadow: $ui-shadow;
+    z-index:$ui-panel-zindex;
 }
 .ui-dash-pop .item{
     padding:0px 10px;
 }
 .ui-dash-pop .item:hover{
-    background-color:#f6f6f6;
+    background-color:$ui-state-hover;
 };

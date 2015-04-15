@@ -1,12 +1,12 @@
-@import "_variables.css";
+@import "_variables";
 
 .ui-buttonset .ui-button{
     margin-right:-5px;
     background-color:#fff;
 }
 .ui-buttonset .ui-state-active{
-    background-color: #007afc;
-    border-color: #007afc;
+    background-color: $ui-state-active;
+    border-color: $ui-state-active;
 }
 .font-style .ui-button-text-only .ui-button-text{
     padding:3px 20px;
@@ -24,7 +24,7 @@
     width:150px;
 }
 .ui-selectmenu-button{
-    background-color: #fff;
+    background-color: $ui-background-color;
 }
 .ui-selectmenu-button:focus{
     outline:none;

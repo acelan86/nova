@@ -1,3 +1,5 @@
+@import "_variables";
+
 .ui-dash-summary .modify-ani-title{
     color:#333;
 }
@@ -6,10 +8,10 @@
     display: block;
     line-height: 25px;
     width:200px;
-    background-color: #157efb;
+    background-color: $ui-state-active;
     color:#fff;
     border:none;
-    border-radius: 4px;
+    border-radius: $ui-radius;
     margin:0px auto;
 }
 .modify-button,
@@ -17,9 +19,9 @@
 .add-button{
     line-height: 20px;
     width:110px;
-    background-color: #fff;
-    border:1px solid #ccc;
-    border-radius: 4px;
+    background-color: $ui-background-color;
+    border:$ui-1px-border;
+    border-radius: $ui-radius;
 }
 .add-button{
     display:block;
@@ -33,7 +35,7 @@
     font-size:10px;
     color:#ccc;
     line-height:20px;
-    padding:5px;
+    padding:$ui-panel-padding;
 }
 .ani-item{
     line-height:24px;
@@ -47,7 +49,7 @@
     border-radius: 4px;
 }
 .ui-dash-ani-ul .active{
-    background:#d7d7d7;
+    background:$ui-state-hover;
 }
 .ani-item .ani-item-opt-button{
     float:right;
@@ -56,14 +58,14 @@
     display:none;
 }
 .ani-item:hover{
-    background-color:#157efb;
+    background-color: $ui-state-active;
     color:#fff;
 }
 .ani-item:hover .ani-item-opt-button{
     display:block;
 }
 .ui-ani-select-list .group{
-    border-bottom:1px solid #ccc;
+    border-bottom:1px solid $ui-border-color;
     padding:10px 0px;
 }
 .ui-ani-select-list .group:last-child{
@@ -73,11 +75,11 @@
 /* ui-slider */
 .ui-slider-horizontal{
     height:3px;
-    background-color:#bbb;
+    background-color:$ui-dark-background-color;
     border:none;
 }
 .ui-slider-range{
-    background-color:#157efb;
+    background-color: $ui-state-active;
 }
 .ui-slider{
     margin:10px 5px;
@@ -85,13 +87,13 @@
 .ui-slider .ui-slider-handle{
     width:10px;
     height:10px;
-    border-radius: 10px;
+    border-radius: $ui-round-radius;
     outline:none;
-    background-color: #fff;
+    background-color: $ui-background-color;
 }
 .ui-slider .ui-state-active{
-    background-color:#ddd;
-    border-color:#aaa;
+    background-color:$ui-state-hover;
+    border-color:$ui-border-color;
 }
 .ui-slider-horizontal .ui-slider-handle{
     top:-5px;
