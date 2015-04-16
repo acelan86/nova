@@ -64,6 +64,7 @@ html{
     opacity:.2;
     outline:1px solid #000;
     pointer-events: none;
+    z-index:$stage-helper;
 }
 .dashboard{
     position:absolute;
@@ -86,6 +87,7 @@ html{
     width:320px;
     height:480px;
     background:#fff;
+    overflow:hidden;
 }
 
 .thumb-list .item{

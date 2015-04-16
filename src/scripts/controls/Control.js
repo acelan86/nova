@@ -1,44 +1,42 @@
-define(['jquery', 'ui', 'css!styles/control.css'], function ($) {
+define(['jquery', 'handlebars', 'ui', 'css!styles/control.css'], function ($, handlebars) {
     var uid = 0;
+    var tplCache = {};
+    var canvasOffset = $('.canvas').offset();
 
     $.widget('nova.Control', {
         options: {
-            type: 'control'
-        },
-        _uuid: function () {
-            return [
-                'ctrl',
-                this.options.type,
-                (+new Date()).toString(36),
-                ++uid
-            ].join('-');
+            type: 'control',
+            data: {
+                text: 'control'
+            }
         },
         _create: function () {
             this.element
-                .data('uuid', this._uuid())
-                .addClass('control')
-                .append('<div class="control-mask"></div>')
-                .resizable({
-                    helper: "ui-resizable-helper",
-                    handles: "n, e, s, w, ne, se, sw, nw" //八个方向均可拖拽缩放
-                })
-                .draggable()
-                .resizable('disable');
+                .data('widgetName', this.widgetFullName)
+                .addClass('control');
+
+            this.renderContent();
+
         },
         _destory: function () {
             //todo
         },
-        select: function () {
-            this.element
-                .addClass('control-selected')
-                .resizable('enable');
-        },
-        deselect: function () {
-            this.element
-                .removeClass('control-selected')
-                .resizable('disable');
+        renderContent: function (data) {
+            var tpl = $.nova.Control.getControlTpl(this.options.type);
+            data = $.extend(this.options.data, data || {})
+            this.element.html(tpl(data));
         }
     });
+
+    //获取模板
+    $.nova.Control.getControlTpl = function (type) {
+        var tpl;
+        if (!(tpl = tplCache[type])) {
+            tpl = handlebars.compile($('#tpl-ctrl-' + type).text());
+            tplCache[type] = tpl;
+        }
+        return tpl;
+    };
 
     //公共函数都是使用dom作为接口
     $.nova.Control.findControl = function (dom) {
@@ -50,4 +48,8 @@ define(['jquery', 'ui', 'css!styles/control.css'], function ($) {
     $.nova.Control.equal = function (domA, domB) {
         return $(domA).data('uuid') === $(domB).data('uuid');
     };
+
+    $(window).resize(function () {
+        canvasOffset = $('.canvas').offset();
+    });
 });

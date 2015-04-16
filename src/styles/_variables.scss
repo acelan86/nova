@@ -32,7 +32,12 @@ $control-min-zindex:40;
 $control-handler-zindex: 90;                        //控件的resize句柄
 $control-mask-zindex: $control-handler-zindex - 1;  //控件遮罩
 
+
+
 $dashboard-zindex: 100;                             //属性面板
+
+$stage-helper: $dashboard-zindex - 1;
+
 $snaplist-zindex: $dashboard-zindex;                //缩略图面板
 
 $ui-panel-zindex:500;                               //ui弹出面板

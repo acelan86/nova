@@ -90,11 +90,17 @@ define([
                         .animationdash()
                         .on('animationdashpreview', function (e, animate) {
                             var selections = $('.stage').stage('getSelection');
+                            $('body').addClass('hide-selected');
+                            var len = selections.length;
                             $.each(selections, function (i, $control) {
                                 $control.addClass('animated ' + animate.name);
                                 $control.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', (function (_control, animateName) {
                                     return function () {
+                                        len--;
                                         _control.removeClass('animated ' + animateName);
+                                        if (len <= 0) {
+                                            $('body').removeClass('hide-selected');
+                                        }
                                     };
                                 })($control, animate.name));
                             });
