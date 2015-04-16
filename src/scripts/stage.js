@@ -316,6 +316,7 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
         },
 
         _key: function (e) {
+            var me = this;
             var step = 1;
             console.log(e.which);
             //阻止浏览器回退键
@@ -361,7 +362,12 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
                 }
             } else {
                 //删除
-                //stageEvent.removeSelected(e);
+                try {
+                    $.each(this.selections.get(), function (i, $ctrl) {
+                        me._removeControlView($ctrl);
+                    });
+                    this.selections.clear();
+                } catch (e) {}
                 e.preventDefault();
             }
         },
@@ -436,6 +442,10 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
                 .removeClass('control-mask-show')
                 .resizable('disable');
         },
+        _removeControlView: function ($ctrl) {
+            $ctrl.data('mask').remove();
+            $ctrl.remove();
+        },
         selectControl: function ($ctrl) {
             this.selections.add($ctrl);
             this._selectControlView($ctrl);
@@ -471,6 +481,10 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
             this.element.find('.control').each(function () {
                 me.selectControl($(this));
             });
+        },
+        removeControl: function ($ctrl) {
+            this._removeControlView($ctrl);
+            this.selections.remove($ctrl);
         },
         getSelection: function () {
             return this.selections.get();
