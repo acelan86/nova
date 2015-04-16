@@ -12,9 +12,14 @@
 
 .control-mask{
     position:absolute;
+}
+
+.control-mask-border-show .control-mask{
     outline:1px dotted #ccc;
 }
-.control-mask-show{
+
+.control-mask-show,
+.control-mask-border-show .control-mask-show {
     outline:$ui-1px-active-border;
     z-index:$control-mask-zindex;
 }

@@ -1,4 +1,4 @@
-define(['require', 'jquery', 'ui', 'scripts/controls/Control', 'scripts/PageViewController.js'], function (require, $) {
+define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (require, $) {
     //扩展获取实例接口
     $.fn.extend({
         instance: function () {
@@ -9,14 +9,15 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control', 'scripts/PageView
 
     //扩展键值
     $.extend($.ui.keyCode, {
-        DEL : 46,
-        A : 65,
-        Z : 90,
-        G : 71,
-        I : 73,
-        P : 80,
-        C : 67,
-        V : 86
+        OPT     : 18,
+        DEL     : 46,
+        A       : 65,
+        Z       : 90,
+        G       : 71,
+        I       : 73,
+        P       : 80,
+        C       : 67,
+        V       : 86
     });
 
     /**
@@ -77,13 +78,10 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control', 'scripts/PageView
             var me = this;
             //创建辅助选择节点，用于形成选择区域框
             this.helper = $('<div class="stage-helper"></div>');
-            //选中项
+            //选中项管理器
             this.selections = new ControlSelections();
-
-            this.canvasOffset = this.element.find('.canvas').offset();
-
-            this.element
-                .addClass('page-editable');
+            //存储相关布局
+            this._cacheLayout();
 
             //将所有ctrl, html变成可以编辑的控件
             this.element.find('.control')
@@ -99,130 +97,23 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control', 'scripts/PageView
             this._mouseInit();
 
             this._on(this.element, {
-                'dragstart .control-mask': function (e, ui) {
-                    this._off(this.element, "mouseup");
-                    var $ctrl = $(e.target).data('control');
-                    //设置control的长宽
-                    $ctrl
-                        .css({
-                            width   : $(e.target).width(),
-                            height  : $(e.target).height()
-                        });
-
-                    //如果原来未选中, 那么选中自己，清除别人
-                    if (!this.selections.has($ctrl)) {
-                        this.singleSelectControl($ctrl);
-                    }
-
-                    this.selections.get().map(function ($item) {
-                        $item.data({
-                            'oleft': parseInt($item.css('left'), 10) || 0,
-                            'otop': parseInt($item.css('top'), 10) || 0
-                        });
-                    });
-                },
-                'dragstop .control-mask': function (e, ui) {
-                    var me = this;
-                    var $ctrl = $(e.target).data('control');
-
-                    //移动偏移量
-                    var offset = {
-                        x: ui.offset.left - ui.originalPosition.left,
-                        y: ui.offset.top - ui.originalPosition.top
-                    };
-
-                    if (this.selections.has($ctrl)) {
-                        //同步移动
-                        this.selections.get().map(function ($item) {
-                            //移动ctrl
-                            $item
-                                .css({
-                                    left: offset.x + $item.data('oleft') - me.canvasOffset.left,
-                                    top : offset.y + $item.data('otop') - me.canvasOffset.top
-                                });
-                            //移动mask
-                            $item.data('mask')
-                                .css({
-                                    left: offset.x + $item.data('oleft'),
-                                    top : offset.y + $item.data('otop')
-                                });
-                        });
-                    }
-                    this._on(this.element, {
-                        "mouseup": this._onmouseup
-                    });
-                },
-                'resizestart .control-mask': function (e) {
-                    this._off(this.element, "mouseup", this._onmouseup);
-                },
-                'resizestop .control-mask': function (e, ui) {
-                    $(e.target).data('control')
-                        .css({
-                            width   : ui.size.width,
-                            height  : ui.size.height,
-                            left    : ui.position.left - this.pageOffset.left,
-                            top     : ui.position.top - this.pageOffset.top
-                        });
-                    this._on(this.element, {
-                        "mouseup": this._onmouseup
-                    });
-                },
-                "mouseup": this._onmouseup
+                'dragstart      .control-mask'  : this._dragStart,
+                'drag           .control-mask'  : this._drag,
+                'dragstop       .control-mask'  : this._dragStop,
+                'resizestart    .control-mask'  : this._resizeStart,
+                'resizestop     .control-mask'  : this._resizeStop,
+                'mouseup'                       : this._onMouseUp
             });
 
+            //resize
             this._on($(window), {
-                'resize': this._windowResizeHandle
+                'resize': this._windowResize
             });
 
             //键盘控制控件移动
-            $(document)
-                .on('keydown', function (e) {
-                    var step = 1;
-                    //阻止浏览器回退键
-                    if (e.which === $.ui.keyCode.DEL) {
-                        e.preventDefault();
-                    } else if (e.which != $.ui.keyCode.BACKSPACE || (e.which == $.ui.keyCode.BACKSPACE && (e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA'))) {
-                        if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.which === $.ui.keyCode.A)) { //全选 command + A
-                            e.preventDefault();
-                            api.clearSelectControl();
-                        } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.A)) { //取消全选command + shift + A
-                            e.preventDefault();
-                            api.selectAllControl();
-                        } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.I)) { //显示隐藏tag command + i
-                            e.preventDefault();
-                        } else if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.which === $.ui.keyCode.P)) { //预览，编辑 command + shift + p
-                            //
-                        } else if ((e.metaKey || e.ctrlKey) && e.shiftkey && (e.which === $.ui.keyCode.Z)) {
-                            e.preventDefault();
-                            //recorder.redo();
-                        } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.Z)) {
-                            e.preventDefault();
-                            //recorder.restore();
-                        } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.C)) {
-                            if (!(e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA')) {
-                                e.preventDefault();
-                                //stageEvent.copySelected(e);
-                            }
-                        } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.V)) {
-                            if (!(e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA')) {
-                                e.preventDefault();
-                                //stageEvent.pasteSelected(e);
-                            }
-                        } else if (e.which === $.ui.keyCode.LEFT) {
-                            api.moveSelectControl('left', -step);
-                        } else if (e.which === $.ui.keyCode.RIGHT) {
-                            api.moveSelectControl('left', step);
-                        } else if (e.which === $.ui.keyCode.UP) {
-                            api.moveSelectControl('top', -step);
-                        } else if (e.which === $.ui.keyCode.DOWN) {
-                            api.moveSelectControl('top', step);
-                        }
-                    } else {
-                        //删除
-                        stageEvent.removeSelected(e);
-                        e.preventDefault();
-                    }
-                });
+            this._on($(document), {
+                'keydown': this._key
+            });
         },
         //缓存所有控件信息
         _cache : function() {
@@ -231,16 +122,90 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control', 'scripts/PageView
                 var $item = $(this);
                 var pos = $item.offset();
                 $item.data("cache-info", {
-                    left: pos.left,
-                    top: pos.top,
-                    right: pos.left + $item.outerWidth(),
-                    bottom: pos.top + $item.outerHeight()
+                    left    : pos.left,
+                    top     : pos.top,
+                    right   : pos.left + $item.outerWidth(),
+                    bottom  : pos.top  + $item.outerHeight()
                 });
+            });
+        },
+        _cacheLayout: function () {
+            this.canvasOffset = this.element.find('.canvas').offset();
+            this.stageOffset = this.element.offset();
+        },
+        _dragStart: function (e, ui) {
+            this._off(this.element, "mouseup");
+            var $ctrl = $(e.target).data('control');
+            //设置control的长宽
+            $ctrl
+                .css({
+                    width   : $(e.target).width(),
+                    height  : $(e.target).height()
+                });
+
+            //如果原来未选中, 那么选中自己，清除别人
+            if (!this.selections.has($ctrl)) {
+                this.singleSelectControl($ctrl);
+            }
+
+            this.selections.get().map(function ($item) {
+                $item.data({
+                    'oleft': parseInt($item.css('left'), 10) || 0,
+                    'otop': parseInt($item.css('top'), 10) || 0
+                });
+            });
+        },
+        _drag: function (e, ui) {
+            var me = this;
+            var $ctrl = $(e.target).data('control');
+
+            //移动偏移量
+            var offset = {
+                x: ui.offset.left - ui.originalPosition.left - this.stageOffset.left,
+                y: ui.offset.top - ui.originalPosition.top - this.stageOffset.top
+            };
+
+            if (this.selections.has($ctrl)) {
+                //同步移动
+                this.selections.get().map(function ($item) {
+                    //移动ctrl
+                    $item
+                        .css({
+                            left: offset.x + $item.data('oleft'),
+                            top : offset.y + $item.data('otop')
+                        });
+                    //移动mask
+                    $item.data('mask')
+                        .css({
+                            left: offset.x + $item.data('oleft') + me.canvasOffset.left - me.stageOffset.left,
+                            top : offset.y + $item.data('otop') + me.canvasOffset.top - me.stageOffset.top
+                        });
+                });
+            }
+        },
+        _dragStop: function (e, ui) {
+            this._on(this.element, {
+                "mouseup": this._onMouseUp
+            });
+        },
+        _resizeStart: function (e) {
+            this._off(this.element, "mouseup");
+        },
+        _resizeStop: function (e, ui) {
+            $(e.target).data('control')
+                .css({
+                    width   : ui.size.width,
+                    height  : ui.size.height,
+                    left    : ui.position.left - this.canvasOffset.left,
+                    top     : ui.position.top  - this.canvasOffset.top
+                });
+            this._on(this.element, {
+                "mouseup": this._onMouseUp
             });
         },
         _mouseStart : function (e) {
             this.opos = [e.pageX, e.pageY];
-            this.element.append(this.helper);
+            $('body').append(this.helper);
 
             this.helper.css({
                 left: e.clientX,
@@ -250,7 +215,7 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control', 'scripts/PageView
             });
             this._cache();
 
-            this._off(this.element, "mouseup", this._onmouseup);
+            this._off(this.element, "mouseup");
         },
         _mouseDrag : function (e) {
             var me = this;
@@ -296,19 +261,7 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control', 'scripts/PageView
 
             return false;
         },
-        _mouseStop : function (e) {
-            this.dragged = false;
-            this.helper.remove();
-
-            this._on(this.element, {
-                "mouseup": this._onmouseup
-            });
-
-            //情况三， 全局框选，触发选中控件
-            this._postMessage(e);
-            return false;
-        },
-        _onmouseup: function (e) {
+        _onMouseUp: function (e) {
             //根据e.target查找他对应的control，如果点击的是mask，那么从data-control中获取
             var control = $(e.target).data('control') || Control.findControl(e.target),
                 $control;
@@ -319,6 +272,7 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control', 'scripts/PageView
                 this._postMessage(e);
             //点中控件，选中控件逻辑
             } else {
+                //情况一， 点击控件，触发选中控件逻辑
                 $control = $(control);
                 if (e.metaKey || e.ctrlKey) {
                     if (this.selections.has($control)) {
@@ -326,16 +280,30 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control', 'scripts/PageView
                     } else {
                         this.selectControl($control);
                     }
+                    this._postMessage(e);
                 } else {
-                    this.singleSelectControl($control);
+                    //当原来不是选中情况下才触发
+                    if (!this.singleSelectControl($control)) {
+                        this._postMessage(e);
+                    }
                 }
-                //情况一， 点击控件，触发选中控件逻辑
-                this._postMessage(e);
             }
         },
+        _mouseStop : function (e) {
+            this.dragged = false;
+            this.helper.remove();
+
+            this._on(this.element, {
+                "mouseup": this._onMouseUp
+            });
+
+            //情况三， 全局框选，触发选中控件
+            this._postMessage(e);
+            return false;
+        },
         //resize 时重新定位select mask
-        _windowResizeHandle: function () {
-            this.pageOffset = this.element.offset();
+        _windowResize: function () {
+            this._cacheLayout();
             this.element.find('.control').each(function () {
                 var $ctrl = $(this);
                 $ctrl.data('mask')
@@ -346,6 +314,57 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control', 'scripts/PageView
                     });
             });
         },
+
+        _key: function (e) {
+            var step = 1;
+            console.log(e.which);
+            //阻止浏览器回退键
+            if (e.which === $.ui.keyCode.DEL) {
+                e.preventDefault();
+            } else if (e.which != $.ui.keyCode.BACKSPACE || (e.which == $.ui.keyCode.BACKSPACE && (e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA'))) {
+                if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.which === $.ui.keyCode.A)) { //全选 command + A
+                    e.preventDefault();
+                    this.clearSelectControl();
+                } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.A)) { //取消全选command + shift + A
+                    e.preventDefault();
+                    this.selectAllControl();
+                } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.I)) { //显示隐藏tag command + i
+                    e.preventDefault();
+                } else if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.which === $.ui.keyCode.P)) { //预览，编辑 command + shift + p
+                    //
+                } else if ((e.metaKey || e.ctrlKey) && e.shiftkey && (e.which === $.ui.keyCode.Z)) {
+                    e.preventDefault();
+                    //recorder.redo();
+                } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.Z)) {
+                    e.preventDefault();
+                    //recorder.restore();
+                } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.C)) {
+                    if (!(e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA')) {
+                        e.preventDefault();
+                        //stageEvent.copySelected(e);
+                    }
+                } else if ((e.metaKey || e.ctrlKey) && (e.which === $.ui.keyCode.V)) {
+                    if (!(e.target.nodeName === 'INPUT' || e.target.nodeName === 'TEXTAREA')) {
+                        e.preventDefault();
+                        //stageEvent.pasteSelected(e);
+                    }
+                } else if (e.which === $.ui.keyCode.LEFT) {
+                    this.moveSelectControl('left', -step);
+                } else if (e.which === $.ui.keyCode.RIGHT) {
+                    this.moveSelectControl('left', step);
+                } else if (e.which === $.ui.keyCode.UP) {
+                    this.moveSelectControl('top', -step);
+                } else if (e.which === $.ui.keyCode.DOWN) {
+                    this.moveSelectControl('top', step);
+                } else if (e.altKey) {
+                    this.element.toggleClass('control-mask-border-show');
+                }
+            } else {
+                //删除
+                //stageEvent.removeSelected(e);
+                e.preventDefault();
+            }
+        },
         _maskControl: function ($ctrl) {
             var $mask = $('<div class="control-mask"/>')
                 .appendTo(this.element)
@@ -353,7 +372,9 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control', 'scripts/PageView
                     helper: "ui-resizable-helper",
                     handles: "n, e, s, w, ne, se, sw, nw" //八个方向均可拖拽缩放
                 })
-                .draggable()
+                .draggable({
+                    containment : this.element,
+                })
                 //记录他关联的控件
                 .data('control', $ctrl)
                 .css({
@@ -410,14 +431,14 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control', 'scripts/PageView
                 .addClass('control-mask-show')
                 .resizable('enable');
         },
-        selectControl: function ($ctrl) {
-            this.selections.add($ctrl);
-            this._selectControlView($ctrl);
-        },
         _deselectControlView: function ($ctrl) {
             $ctrl.data('mask')
                 .removeClass('control-mask-show')
                 .resizable('disable');
+        },
+        selectControl: function ($ctrl) {
+            this.selections.add($ctrl);
+            this._selectControlView($ctrl);
         },
         deselectControl: function ($ctrl) {
             this.selections.remove($ctrl);
@@ -435,9 +456,24 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control', 'scripts/PageView
             this.clearSelectControl();
             this.selectControl($ctrl);
             //如果原来没有，那么需要触发一次选中事件
-            if (!_has) {
-                //触发选中某个控件逻辑
-            }
+            return _has;
+        },
+        moveSelectControl: function (dir, offset) {
+            var me = this;
+            $.each(this.selections.get(), function (i, $ctrl) {
+                var value = (parseInt($ctrl.css(dir), 10) || 0) + offset;
+                $ctrl.css(dir, value);
+                $ctrl.data('mask').css(dir, value + me.canvasOffset[dir] - me.stageOffset[dir]);
+            });
+        },
+        selectAllControl: function () {
+            var me = this;
+            this.element.find('.control').each(function () {
+                me.selectControl($(this));
+            });
+        },
+        getSelection: function () {
+            return this.selections.get();
         },
         _destroy: function() {
             this._mouseDestroy();

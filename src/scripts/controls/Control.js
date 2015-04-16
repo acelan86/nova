@@ -1,7 +1,6 @@
 define(['jquery', 'handlebars', 'ui', 'css!styles/control.css'], function ($, handlebars) {
     var uid = 0;
     var tplCache = {};
-    var canvasOffset = $('.canvas').offset();
 
     $.widget('nova.Control', {
         options: {
@@ -16,7 +15,9 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/control.css'], function ($, ha
                 .addClass('control');
 
             this.renderContent();
-
+        },
+        _init: function () {
+            //doshome
         },
         _destory: function () {
             //todo
@@ -42,14 +43,4 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/control.css'], function ($, ha
     $.nova.Control.findControl = function (dom) {
         return $(dom).closest('.control').get(0);
     };
-    $.nova.Control.all = function () {
-        return $('.control');
-    };
-    $.nova.Control.equal = function (domA, domB) {
-        return $(domA).data('uuid') === $(domB).data('uuid');
-    };
-
-    $(window).resize(function () {
-        canvasOffset = $('.canvas').offset();
-    });
 });
