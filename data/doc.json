@@ -1,0 +1,175 @@
+{
+    /* 标签 */ 
+    "tag": ["demo", "acelan", "test"],
+    /* 背景音乐 */
+    "music": {
+        "src" : "xx.mp3",
+        "loop": true,
+        "olength": 10, /*音乐长度，秒*/
+    },
+    /* 页面列表 */
+    "pages": [
+        {
+            /* 背景 */
+            "background": {
+                "color": "#fff",
+                "image": {
+                    "src": "xxxx.png",  /* 图片地址 */
+                    "owidth": 100,      /* 原始宽度 */
+                    "oheight": 100      /* 原始高度 */
+                }
+            },
+            /* 前景 */
+            "foreground": {
+                "color": "#fff",
+                "image": {
+                    "src": "xxxx.png",
+                    "owidth": 100,
+                    "oheight": 100
+                }
+            },
+            /* 控件列表 */
+            "controls": [
+                {
+                    "uid": 1,
+                    /* 控件类型 */
+                    "type": "text",
+                    /* 动画， 公共部分 */
+                    "animates" : {
+                        /* 进入动画， 仅一个*/
+                        "entrance": [
+                            {
+                                "name"      : "bounceIn", /*动画名称*/
+                                "delay"     : 0.5,      /*动画延迟*/
+                                "duration"  : 1         /*动画持续时间*/
+                            }
+                        ],
+                        /* 效果列表， 多个 */
+                        "attention": [
+                            {
+                                "name"      : "bounce", /*动画名称*/
+                                "delay"     : 0.5,      /*动画延迟*/
+                                "duration"  : 1         /*动画持续时间*/
+                            }
+                        ],
+                        /* 退出动画，仅一个 */
+                        "exit": [
+                            {
+                                "name"      : "bounceOut", /*动画名称*/
+                                "delay"     : 0.5,      /*动画延迟*/
+                                "duration"  : 1         /*动画持续时间*/
+                            }
+                        ]
+                    },
+                    /* 样式， 公共部分 */
+                    "styles": {
+                        "background": {
+                            "color" : "#fff",
+                            "image" : {
+                                "src": "xxxx.png",
+                                "owidth": 100,
+                                "oheight": 100
+                            }
+                        },
+                        "border": {
+                            "width": 1,
+                            "style": "dotted",
+                            "color": "#ccc"
+                        },
+                        "shadow": {
+                            "x": 1,
+                            "y": 2,
+                            "blur": 2,
+                            "color": "#fff"
+                        }
+                    },
+                    /* 布局， 公共部分 */
+                    "layout": {
+                        "x": 10,
+                        "y": 10,
+                        "z": 10,
+                        "width": 200,
+                        "height": 100
+                    },
+                    /* 数据， 实例部分 */
+                    "data": {
+                        "text": "文字",
+                        "font-size": 13,
+                        "line-height": 1.5,
+                        "color": "#ccc",
+                        "font-weight": "bold",
+                        "font-style": "italic"
+                    }
+                },
+                {
+                    "uid": 2,
+                    /* 控件类型 */
+                    "type": "image",
+                    /* 动画， 公共部分 */
+                    "animates" : {
+                        /* 进入动画， 仅一个*/
+                        "entrance": [
+                            {
+                                "name"      : "bounceIn", /*动画名称*/
+                                "delay"     : 0.5,      /*动画延迟*/
+                                "duration"  : 1         /*动画持续时间*/
+                            }
+                        ],
+                        /* 效果列表， 多个 */
+                        "attention": [
+                            {
+                                "name"      : "bounce", /*动画名称*/
+                                "delay"     : 0.5,      /*动画延迟*/
+                                "duration"  : 1         /*动画持续时间*/
+                            }
+                        ],
+                        /* 退出动画，仅一个 */
+                        "exit": [
+                            {
+                                "name"      : "bounceOut", /*动画名称*/
+                                "delay"     : 0.5,      /*动画延迟*/
+                                "duration"  : 1         /*动画持续时间*/
+                            }
+                        ]
+                    },
+                    /* 样式，公共部分 */
+                    "styles": {
+                        "background": {
+                            "color" : "#fff",
+                            "image" : {
+                                "src": "xxxx.png",
+                                "owidth": 100,
+                                "oheight": 100
+                            }
+                        },
+                        "border": {
+                            "width": 1,
+                            "style": "dotted",
+                            "color": "#ccc"
+                        },
+                        "shadow": {
+                            "x": 1,
+                            "y": 2,
+                            "blur": 2,
+                            "color": "#fff"
+                        }
+                    },
+                    /* 布局， 公共部分 */
+                    "layout": {
+                        "x": 10,
+                        "y": 10,
+                        "z": 10,
+                        "width": 200,
+                        "height": 100
+                    },
+                    /* 数据，实例部分 */
+                    "data": {
+                        "src": "xxxx.png",
+                        "owidth": 100,
+                        "oheight": 100
+                    }
+                }
+            ]
+        }
+    ]
+}

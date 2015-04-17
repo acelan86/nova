@@ -15,7 +15,7 @@
 }
 
 .control-mask-border-show .control-mask{
-    outline:1px dotted #ccc;
+    outline:$ui-1px-border;
 }
 
 .control-mask-show,

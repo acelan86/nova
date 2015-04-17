@@ -20,6 +20,9 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
         V       : 86
     });
 
+    //Control shortcut
+    var Control = $.nova.Control;
+
     /**
      * 列表管理
      */
@@ -65,10 +68,6 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
         }
     };
 
-
-    //Control shortcut
-    var Control = $.nova.Control;
-
     $.widget('ui.stage', $.ui.mouse, {
         options : {
             filter: '.control',
@@ -76,6 +75,7 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
         },
         _create: function () {
             var me = this;
+            this.canvas = this.element.find('.canvas');
             //创建辅助选择节点，用于形成选择区域框
             this.helper = $('<div class="stage-helper"></div>');
             //选中项管理器
@@ -84,17 +84,17 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
             this._cacheLayout();
 
             //将所有ctrl, html变成可以编辑的控件
-            this.element.find('.control')
+            this._allControl()
                 .each(function () {
                     var $ctrl = $(this);
                     me.enhanceControl($ctrl);
                 });
 
-            //取消默认鼠标选中文字功能
-            this.element.disableSelection();
-
             //初始化鼠标事件
             this._mouseInit();
+
+            //取消默认鼠标选中文字功能
+            this.element.disableSelection();
 
             this._on(this.element, {
                 'dragstart      .control-mask'  : this._dragStart,
@@ -115,43 +115,63 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
                 'keydown': this._key
             });
         },
+        _allControl: function () {
+            return this.element.find(this.options.filter);
+        },
+        //从ctrl的位置计算出mask的位置
+        _alignWithCtrl: function (left, top) {
+            return {
+                left: left + this.canvasOffset.left - this.stageOffset.left,
+                top : top  + this.canvasOffset.top  - this.stageOffset.top
+            };
+        },
+        //获取控件信息
+        _ctrlInfo: function ($ctrl) {
+            var pos = $ctrl.offset(),
+                width = $ctrl.outerWidth(),
+                height = $ctrl.outerHeight();
+            return {
+                left    : pos.left,
+                top     : pos.top,
+                right   : pos.left + width,
+                bottom  : pos.top + height,
+                width   : width,
+                height  : height
+            };
+        },
         //缓存所有控件信息
         _cache : function() {
-            var filter = this.options.filter;
-            $(filter).each(function() {
-                var $item = $(this);
-                var pos = $item.offset();
-                $item.data("cache-info", {
-                    left    : pos.left,
-                    top     : pos.top,
-                    right   : pos.left + $item.outerWidth(),
-                    bottom  : pos.top  + $item.outerHeight()
+            var me = this;
+            this._allControl()
+                .each(function() {
+                    var $ctrl = $(this);
+                    var pos = $ctrl.offset();
+                    $ctrl.data("cache-info", me._ctrlInfo($ctrl));
                 });
-            });
         },
         _cacheLayout: function () {
-            this.canvasOffset = this.element.find('.canvas').offset();
+            this.canvasOffset = this.canvas.offset();
             this.stageOffset = this.element.offset();
         },
+
         _dragStart: function (e, ui) {
+            var me = this;
+
             this._off(this.element, "mouseup");
+
             var $ctrl = $(e.target).data('control');
-            //设置control的长宽
-            $ctrl
-                .css({
-                    width   : $(e.target).width(),
-                    height  : $(e.target).height()
-                });
 
             //如果原来未选中, 那么选中自己，清除别人
             if (!this.selections.has($ctrl)) {
                 this.singleSelectControl($ctrl);
             }
 
-            this.selections.get().map(function ($item) {
-                $item.data({
-                    'oleft': parseInt($item.css('left'), 10) || 0,
-                    'otop': parseInt($item.css('top'), 10) || 0
+            $.each(this.selections.get(), function (i, $ctrl) {
+                var info = me._ctrlInfo($ctrl);
+
+                $ctrl.data({
+                    'oleft': info.left - me.canvasOffset.left,
+                    'otop': info.top - me.canvasOffset.top
                 });
             });
         },
@@ -167,18 +187,23 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
 
             if (this.selections.has($ctrl)) {
                 //同步移动
-                this.selections.get().map(function ($item) {
+                $.each(this.selections.get(), function (i, $ctrl) {
+
+                    var left = offset.x + $ctrl.data('oleft');
+                    var top = offset.y + $ctrl.data('otop');
+                    var mask = me._alignWithCtrl(left, top);
+
                     //移动ctrl
-                    $item
+                    $ctrl
                         .css({
-                            left: offset.x + $item.data('oleft'),
-                            top : offset.y + $item.data('otop')
+                            left: left,
+                            top : top
                         });
                     //移动mask
-                    $item.data('mask')
+                    $ctrl.data('mask')
                         .css({
-                            left: offset.x + $item.data('oleft') + me.canvasOffset.left - me.stageOffset.left,
-                            top : offset.y + $item.data('otop') + me.canvasOffset.top - me.stageOffset.top
+                            left: mask.left,
+                            top : mask.top
                         });
                 });
             }
@@ -204,6 +229,8 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
             });
         },
         _mouseStart : function (e) {
+            this._off(this.element, "mouseup");
+
             this.opos = [e.pageX, e.pageY];
             $('body').append(this.helper);
 
@@ -214,8 +241,6 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
                 height: 0
             });
             this._cache();
-
-            this._off(this.element, "mouseup");
         },
         _mouseDrag : function (e) {
             var me = this;
@@ -292,19 +317,17 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
         _mouseStop : function (e) {
             this.dragged = false;
             this.helper.remove();
+            //情况三， 全局框选，触发选中控件
+            this._postMessage(e);
 
             this._on(this.element, {
                 "mouseup": this._onMouseUp
             });
-
-            //情况三， 全局框选，触发选中控件
-            this._postMessage(e);
-            return false;
         },
         //resize 时重新定位select mask
         _windowResize: function () {
             this._cacheLayout();
-            this.element.find('.control').each(function () {
+            this._allControl().each(function () {
                 var $ctrl = $(this);
                 $ctrl.data('mask')
                     .position({
@@ -372,6 +395,11 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
             }
         },
         _maskControl: function ($ctrl) {
+            var info = this._ctrlInfo($ctrl);
+            var mask = this._alignWithCtrl(
+                info.left - this.canvasOffset.left,
+                info.top - this.canvasOffset.top
+            );
             var $mask = $('<div class="control-mask"/>')
                 .appendTo(this.element)
                 .resizable({
@@ -384,14 +412,11 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
                 //记录他关联的控件
                 .data('control', $ctrl)
                 .css({
-                    width   : $ctrl.width(),
-                    height  : $ctrl.height(),
+                    left    : mask.left,
+                    top     : mask.top,
+                    width   : info.width,
+                    height  : info.height,
                     zIndex  : (parseInt($ctrl.css('z-index'), 10) || 0) + 1
-                })
-                .position({
-                    my: "left top",
-                    at: "left top",
-                    of: $ctrl
                 })
                 .resizable('disable');
             //记录控件关联的遮罩
@@ -403,18 +428,33 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
             switch (type) {
                 case 'image':
                     require(['scripts/controls/Image.js'], function () {
-                        $ctrl.ImageControl();
+                        $ctrl
+                            .ImageControl()
+                            .css({
+                                width   : $ctrl.outerWidth(),
+                                height  : $ctrl.outerHeight()
+                            });
                         me._maskControl($ctrl);
                     });
                     break;
                 case 'text':
                     require(['scripts/controls/Text.js'], function () {
-                        $ctrl.TextControl();
+                        $ctrl
+                            .TextControl()
+                            .css({
+                                width   : $ctrl.outerWidth(),
+                                height  : $ctrl.outerHeight()
+                            });
                         me._maskControl($ctrl);
                     });
                     break;
                 default:
-                    $ctrl.Control();
+                    $ctrl
+                        .Control()
+                        .css({
+                            width   : $ctrl.outerWidth(),
+                            height  : $ctrl.outerHeight()
+                        });;
                     me._maskControl($ctrl);
                     break;
             }
@@ -456,8 +496,8 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
         },
         clearSelectControl: function () {
             var me = this;
-            $.each(this.selections.get(), function (i, $item) {
-                me._deselectControlView($item); 
+            $.each(this.selections.get(), function (i, $ctrl) {
+                me._deselectControlView($ctrl); 
             });
             this.selections.clear();
         },
@@ -478,7 +518,7 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
         },
         selectAllControl: function () {
             var me = this;
-            this.element.find('.control').each(function () {
+            this._allControl().each(function () {
                 me.selectControl($(this));
             });
         },
