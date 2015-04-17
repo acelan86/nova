@@ -40,7 +40,7 @@ define(['jquery', 'ui', 'css!styles/colorpicker.css'], function ($) {
                 this.icon.css('background-color', newValue);
                 return;
             }
-            return this.options.value;d
+            return (this.options.value);
         },
         _showHandle: function (e) {
             this.panel

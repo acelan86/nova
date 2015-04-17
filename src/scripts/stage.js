@@ -34,7 +34,7 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
             return $a.get(0) === $b.get(0);
         }, 
         has: function (obj) {
-            var me = this
+            var me = this;
             var found = false;
             $.each(this.list, function (i, item) {
                 if (me.equal(obj, item)) {
@@ -61,7 +61,7 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
             return this.list;
         },
         clear: function () {
-            return this.list = [];
+            return (this.list = []);
         },
         get: function () {
             return this.list;
@@ -245,15 +245,16 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
         _mouseDrag : function (e) {
             var me = this;
             var options = this.options;
+            var tmp;
 
             this.dragged = true;
 
             var x1 = this.opos[0], y1 = this.opos[1], x2 = e.pageX, y2 = e.pageY;
             if (x1 > x2) {
-                var tmp = x2; x2 = x1; x1 = tmp;
+                tmp = x2; x2 = x1; x1 = tmp;
             }
             if (y1 > y2) {
-                var tmp = y2; y2 = y1; y1 = tmp;
+                tmp = y2; y2 = y1; y1 = tmp;
             }
             this.helper.css({
                 left : x1,
@@ -390,7 +391,7 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
                         me._removeControlView($ctrl);
                     });
                     this.selections.clear();
-                } catch (e) {}
+                } catch (err) {}
                 e.preventDefault();
             }
         },
@@ -454,7 +455,7 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
                         .css({
                             width   : $ctrl.outerWidth(),
                             height  : $ctrl.outerHeight()
-                        });;
+                        });
                     me._maskControl($ctrl);
                     break;
             }

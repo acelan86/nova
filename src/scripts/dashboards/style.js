@@ -34,7 +34,7 @@ define(['jquery', 'handlebars', 'ui', 'scripts/dashboards/dash', 'css!styles/sty
                 'opacity|0|100|1',
                 'border-width|1|10|1'
             ], function (i, item) {
-                var item = item.split('|');
+                item = item.split('|');
                 var key = item[0],
                     min = parseFloat(item[1], 10),
                     max = parseFloat(item[2], 10),

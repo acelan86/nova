@@ -169,7 +169,7 @@ define(['jquery', 'handlebars', 'ui', 'scripts/dashboards/dash', 'css!styles/ani
             this.delaySlider = this.element.find('.delay-slider')
                 .slider({
                     range: 'min',
-                    step: .1,
+                    step: 0.1,
                     min: 0,
                     max: 10
                 });
@@ -179,7 +179,7 @@ define(['jquery', 'handlebars', 'ui', 'scripts/dashboards/dash', 'css!styles/ani
             //初始化delay spinner
             this.delaySpinner = this.element.find('.delay-spinner')
                 .spinner({
-                    step: .1,
+                    step: 0.1,
                     min: 0,
                     max: 10
                 });
@@ -188,14 +188,14 @@ define(['jquery', 'handlebars', 'ui', 'scripts/dashboards/dash', 'css!styles/ani
             this.durationSlider = this.element.find('.duration-slider')
                 .slider({
                     range: 'min',
-                    step: .1,
+                    step: 0.1,
                     min: 0,
                     max: 10
                 });
             //初始化duration spinner
             this.durationSpinner = this.element.find('.duration-spinner')
                 .spinner({
-                    step: .1,
+                    step: 0.1,
                     min: 0,
                     max: 10
                 });

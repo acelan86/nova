@@ -24,10 +24,54 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/control.css'], function ($, ha
         },
         renderContent: function (data) {
             var tpl = $.nova.Control.getControlTpl(this.options.type);
-            data = $.extend(this.options.data, data || {})
+            data = $.extend(this.options.data, data || {});
             this.element.html(tpl(data));
         }
     });
+
+    //创建动画style
+    $.nova.Control.getAnimationStyle = function (animates) {
+        animates = animates || {};
+        var baseDelay = 0;
+        var names = [];
+        var delays = [];
+        var durations = [];
+        var styles = [];
+        //
+        //entrance
+        $.each(['entrance', 'attention', 'exit'], function (i, type) {
+            var max = 0;
+            $.each(animates[type] || [], function (i, animate) {
+                var name = animate.name;
+                var duration = animate.duration || 0;
+                var delay = (animate.delay || 0);
+                if (delay + duration > max) {
+                    max = delay + duration;
+                }
+                delay += baseDelay;
+                names.push(name);
+                durations.push(duration + 's');
+                delays.push(delay + 's');
+            });
+            baseDelay += max;
+        });
+
+        names = names.join(',');
+        delays = delays.join(',');
+        durations = durations.join(',');
+
+        if (names) {
+            styles.push('-webkit-animation-name:' + names);
+        }
+        if (durations) {
+            styles.push('-webkit-animation-duration:' + durations);
+        }
+        if (delays) {
+            styles.push('-webkit-animation-delay:' + delays);
+        }
+        
+        return styles.join(';');
+    };
 
     //获取模板
     $.nova.Control.getControlTpl = function (type) {

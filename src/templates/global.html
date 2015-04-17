@@ -21,3 +21,78 @@
     <section class="ui-dash-summary"></section>
     <section class="ui-dash-addition"></section>
 </script>
+
+
+<!-- 控件容器模板 -->
+<script type="text/x-nova-tpl" id="tpl-ctrl-container">
+<!--
+    "background": {
+        "color" : "#fff",
+        "image" : {
+            "src": "xxxx.png",
+            "owidth": 100,
+            "oheight": 100
+        }
+    },
+    "border": {
+        "width": 1,
+        "style": "dotted",
+        "color": "#ccc"
+    },
+    "shadow": {
+        "x": 1,
+        "y": 2,
+        "blur": 2,
+        "color": "#fff"
+    }
+    /* 进入动画， 仅一个*/
+    "entrance": [
+        {
+            "name"      : "bounceIn", /*动画名称*/
+            "delay"     : 0.5,      /*动画延迟*/
+            "duration"  : 1         /*动画持续时间*/
+        }
+    ],
+    /* 效果列表， 多个 */
+    "attention": [
+        {
+            "name"      : "bounce", /*动画名称*/
+            "delay"     : 0.5,      /*动画延迟*/
+            "duration"  : 1         /*动画持续时间*/
+        }
+    ],
+    /* 退出动画，仅一个 */
+    "exit": [
+        {
+            "name"      : "bounceOut", /*动画名称*/
+            "delay"     : 0.5,      /*动画延迟*/
+            "duration"  : 1         /*动画持续时间*/
+        }
+    ]
+-->
+<div style="
+    position:absolute;
+
+    left:{{layout.x}}px;
+    top:{{layout.y}}px;
+    z-index:{{layout.z}};
+    width:{{layout.width}}px;
+    height:{{layout.height}}px;
+
+    {{#if style.background}}
+        background: {{style.background}};
+    {{/if}}
+    {{#if style.border}}
+        border: {{style.border}};
+    {{/if}}
+    {{#if style.shadow}}
+        box-shadow: {{style.shadow}};
+    {{/if}}
+
+    {{#each animates.entrance}}
+        -webkit-animation-name: fade, drop; -webkit-animation-duration: 11s, 11s; -webkit-animation-delay: 3s, 3s;
+    {{/each}}
+">
+    {{{content}}}
+</div>
+</script>

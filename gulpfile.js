@@ -113,7 +113,7 @@ gulp.task(function buildBowerFile() {
 });
 
 //3. compile  [styles]  dev -> dev
-gulp.task(function compile() {
+gulp.task(function compile_css() {
     var sass = require("gulp-sass");
 
     return gulp.src(paths.dev + "/**/*.css")
@@ -121,8 +121,17 @@ gulp.task(function compile() {
         .pipe(gulp.dest(paths.dev));
 });
 
+gulp.task(function compile_js() { 
+    var jshint = require("gulp-jshint");
+
+    return gulp.src(paths.dev + "/scripts/**/*.js")
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'))
+        .pipe(gulp.dest(paths.dev));
+});
+
 //4、server & watch
-gulp.task("dev", gulp.series("bowerinstall", "clean_dev", "src2dev", "includeTpl", "buildBowerFile", "compile"));
+gulp.task("dev", gulp.series("bowerinstall", "clean_dev", "src2dev", "includeTpl", "buildBowerFile", "compile_css", "compile_js"));
 
 
 /**
