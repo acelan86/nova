@@ -30,13 +30,15 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/control.css'], function ($, ha
     });
 
     //创建动画style
-    $.nova.Control.getAnimationStyle = function (animates) {
+    $.nova.Control.getAnimationStyle = function (animates, uid) {
+        var className = 'custom-animate-' + uid;
         animates = animates || {};
         var baseDelay = 0;
         var names = [];
         var delays = [];
         var durations = [];
         var styles = [];
+        var css = [];
         //
         //entrance
         $.each(['entrance', 'attention', 'exit'], function (i, type) {
@@ -63,14 +65,19 @@ define(['jquery', 'handlebars', 'ui', 'css!styles/control.css'], function ($, ha
         if (names) {
             styles.push('-webkit-animation-name:' + names);
         }
+
         if (durations) {
-            styles.push('-webkit-animation-duration:' + durations);
+            css.push('-webkit-animation-duration:' + durations);
         }
         if (delays) {
-            styles.push('-webkit-animation-delay:' + delays);
+            css.push('-webkit-animation-delay:' + delays);
         }
         
-        return styles.join(';');
+        return {
+            className   : className,
+            style       : styles.join(';'),
+            css         : '.animated .' + className + '{' + css.join(';') + '}'
+        };
     };
 
     //获取模板
