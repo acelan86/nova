@@ -1,3 +1,46 @@
+/* 原子数据格式， 所有的图片相关 */
+{
+    "src": "xx.png",
+    "owidth": 100,
+    "oheight": 100
+}
+/* 原子数据格式， 所有的文字相关 */
+{
+    "text": "文字",
+    "font-size": 13,
+    "line-height": 1.5,
+    "color": "#ccc",
+    "font-weight": "bold",
+    "font-style": "italic"
+}
+/* 原子数据格式， 所有的音乐相关 */
+{
+    "src" : "xx.mp3",
+    "loop": true,
+    "olength": 10, /*音乐长度，秒*/
+}
+
+/* 对于每一个控件说明：
+    控件最终生成的html结构大致如下
+    <div type="control" class="controlName control-container" style="animates layout style css style">
+        <div style="data style css" class="control-content">content</div>
+    </div>
+
+    控件分成：
+        1、所有控件公共部分animates, layout, styles属性，这块可以认为是一个容器盒子的相关属性即上面外层容器上的样式属性
+        2、实例控件自身属性，data部分，这块可以认为是控件为了展现自身特殊性的属性
+
+    对数据生成html的过程
+        1、创建容器节点，将animates layout styles上的属性按照自身模板生成后插入到style中
+        2、创建内容节点，将data内部根据自身模板生成后插入到style中
+
+    目录templates/common.ctrl.html中包含的模板为生成公共部分的模板
+    目录templates/controlName.ctrl.html中包含各自控件特殊生成模板
+
+    先按照模板生成控件html，然后再使用stage.js调用scripts/controls/下的实例文件进行控件实例编辑，然后进行通用组件编辑控制
+
+*/
+
 {
     /* 标签 */ 
     "tag": ["demo", "acelan", "test"],
