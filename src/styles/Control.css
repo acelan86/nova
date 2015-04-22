@@ -5,7 +5,6 @@
 }
 
 .control{
-    overflow:hidden;
     position:absolute;
     z-index: $control-min-zindex;
 }

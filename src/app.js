@@ -1,6 +1,7 @@
 define([
     'jquery',
     'handlebars',
+    'scripts/asm',
     'scripts/stage',
     'scripts/dashboards/animation',
     'scripts/dashboards/style',
@@ -8,9 +9,12 @@ define([
     'scripts/dashboards/dash',
     'scripts/dashboards/page',
     'scripts/dashboards/image'
-], function ($, handlebars) {
+], function ($, handlebars, asm) {
     return {
-        run: function () {
+        run: function (doc) {
+            //创建文档展现
+            $('.canvas').html(asm.createDoc(doc));
+
             (function () {
                 $('.navigation').buttonset();
             })();

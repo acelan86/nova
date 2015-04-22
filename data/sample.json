@@ -1,0 +1,210 @@
+{
+    "tag": ["demo", "acelan", "test"],
+    "music": {
+        "src" : "xx.mp3",
+        "loop": true,
+        "olength": 10
+    },
+    "pages": [
+        {
+            "background": {
+                "color": "green",
+                "image": {
+                    "src": "http://d1.sina.com.cn/d1images/157a6ae5b5e757a1e6a51803d036a829.jpg",
+                    "owidth": 100,
+                    "oheight": 100
+                }
+            },
+            "foreground": {
+                "image": {
+                    "src": "http://z.sina.com.cn/z/spring/css/images/card5_front.png",
+                    "owidth": 100,
+                    "oheight": 100
+                }
+            },
+            "controls": [
+                {
+                    "uid": 1,
+                    "type": "text",
+                    "animates" : {
+                        "entrance": [
+                            {
+                                "name"      : "bounceIn",
+                                "delay"     : 0.5,
+                                "duration"  : 1
+                            }
+                        ],
+                        "attention": [
+                            {
+                                "name"      : "bounce",
+                                "delay"     : 0.5,
+                                "duration"  : 1
+                            }
+                        ],
+                        "exit": [
+                            {
+                                "name"      : "bounceOut",
+                                "delay"     : 0.5,
+                                "duration"  : 1
+                            }
+                        ]
+                    },
+                    "styles": {
+                        "background": {
+                            "color" : "#fc0",
+                            "image" : {
+                                "src": "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=1952814213,3453404530&fm=58",
+                                "owidth": 100,
+                                "oheight": 100
+                            }
+                        },
+                        "border": {
+                            "width": 1,
+                            "style": "dotted",
+                            "color": "#ccc"
+                        },
+                        "shadow": {
+                            "x": 1,
+                            "y": 2,
+                            "blur": 2,
+                            "color": "#fff"
+                        }
+                    },
+                    "layout": {
+                        "x": -100,
+                        "y": -100,
+                        "z": 10,
+                        "width": 200,
+                        "height": 100
+                    },
+                    "data": {
+                        "text": "我是文字文字文字文字文字",
+                        "fontSize": 20,
+                        "lineHeight": 1.5,
+                        "color": "#ccc",
+                        "fontWeight": "bold",
+                        "fontStyle": "italic"
+                    }
+                },
+                {
+                    "uid": 2,
+                    "type": "image",
+                    "animates" : {
+                        "entrance": [
+                            {
+                                "name"      : "fadeInLeft",
+                                "delay"     : 0.5,
+                                "duration"  : 1
+                            }
+                        ],
+                        "attention": [
+                            {
+                                "name"      : "tada",
+                                "delay"     : 0.5,
+                                "duration"  : 1
+                            }
+                        ],
+                        "exit": [
+                        ]
+                    },
+                    "styles": {
+                    },
+                    "layout": {
+                        "x": -50,
+                        "y": -50,
+                        "z": 10,
+                        "width": 300,
+                        "height": 300
+                    },
+                    "data": {
+                        "src": "http://d1.sina.com.cn/d1images/4b92d607hc4eb7d7d83ef.png",
+                        "owidth": 350,
+                        "oheight": 350
+                    }
+                },
+                {
+                    "uid": 3,
+                    "type": "image",
+                    "animates" : {
+                        "entrance": [
+                            {
+                                "name"      : "lightSpeedIn",
+                                "delay"     : 2.5,
+                                "duration"  : 1
+                            }
+                        ],
+                        "attention": [
+                            {
+                                "name"      : "zoomIn",
+                                "delay"     : 2.5,
+                                "duration"  : 1
+                            }
+                        ],
+                        "exit": [
+                            {
+                                "name"      : "bounceOutLeft",
+                                "delay"     : 0,
+                                "duration"  : 1
+                            }
+                        ]
+                    },
+                    "styles": {
+                    },
+                    "layout": {
+                        "x": 100,
+                        "y": 200,
+                        "z": 10,
+                        "width": 300,
+                        "height": 300
+                    },
+                    "data": {
+                        "src": "http://d1.sina.com.cn/d1images/5fca7703539771f796d81c237bda89c0.png",
+                        "owidth": 350,
+                        "oheight": 350
+                    }
+                },
+                {
+                    "uid": 4,
+                    "type": "image",
+                    "animates" : {
+                        "entrance": [
+                            {
+                                "name"      : "lightSpeedIn",
+                                "delay"     : 2.5,
+                                "duration"  : 1
+                            }
+                        ],
+                        "attention": [
+                            {
+                                "name"      : "zoomIn",
+                                "delay"     : 2.5,
+                                "duration"  : 1
+                            }
+                        ],
+                        "exit": [
+                            {
+                                "name"      : "bounceOutLeft",
+                                "delay"     : 0,
+                                "duration"  : 1
+                            }
+                        ]
+                    },
+                    "styles": {
+                    },
+                    "layout": {
+                        "x": 200,
+                        "y": 50,
+                        "z": 10,
+                        "width": 300,
+                        "height": 300
+                    },
+                    "data": {
+                        "src": "http://d1.sina.com.cn/d1images/5fca7703539771f796d81c237bda89c0.png",
+                        "owidth": 350,
+                        "oheight": 350
+                    }
+                }
+            ]
+        }
+    ]
+}

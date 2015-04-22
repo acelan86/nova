@@ -217,13 +217,18 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
             this._off(this.element, "mouseup");
         },
         _resizeStop: function (e, ui) {
-            $(e.target).data('control')
+            var $ctrl = $(e.target).data('control');
+            $ctrl
                 .css({
-                    width   : ui.size.width,
-                    height  : ui.size.height,
                     left    : ui.position.left - this.canvasOffset.left,
                     top     : ui.position.top  - this.canvasOffset.top
                 });
+            $ctrl.find('.control-content')
+                .css({
+                    width   : ui.size.width,
+                    height  : ui.size.height  
+                });
+
             this._on(this.element, {
                 "mouseup": this._onMouseUp
             });
@@ -430,32 +435,20 @@ define(['require', 'jquery', 'ui', 'scripts/controls/Control'], function (requir
                 case 'image':
                     require(['scripts/controls/Image.js'], function () {
                         $ctrl
-                            .ImageControl()
-                            .css({
-                                width   : $ctrl.outerWidth(),
-                                height  : $ctrl.outerHeight()
-                            });
+                            .ImageControl();
                         me._maskControl($ctrl);
                     });
                     break;
                 case 'text':
                     require(['scripts/controls/Text.js'], function () {
                         $ctrl
-                            .TextControl()
-                            .css({
-                                width   : $ctrl.outerWidth(),
-                                height  : $ctrl.outerHeight()
-                            });
+                            .TextControl();
                         me._maskControl($ctrl);
                     });
                     break;
                 default:
                     $ctrl
-                        .Control()
-                        .css({
-                            width   : $ctrl.outerWidth(),
-                            height  : $ctrl.outerHeight()
-                        });
+                        .Control();
                     me._maskControl($ctrl);
                     break;
             }

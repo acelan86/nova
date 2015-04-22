@@ -25,14 +25,7 @@
         <!-- 画布区域 -->
         <section class="stage">
             <div class="canvas-wrapper">
-                <div class="canvas">
-                    <div class="page">
-                        <div class="control" data-type="text"></div>
-                        <div class="control" data-type="image"></div>
-                        <div class="control" data-type="image"></div>
-                        <div style="position:absolute;width:300px;height:300px;border:1px solid #ccc;background-color:green" id="test"></div>
-                    </div>
-                </div>
+                <div class="canvas"></div>
             </div>
         </section>
         <!-- 模板选择 -->
@@ -78,7 +71,11 @@
         <script src="config.js"></script>
         <script>
             require(["jquery", "app.js"], function ($, app) {
-                app.run();
+                //获取初始化数据并填充
+                $.getJSON('../data/sample.json')
+                    .done(function (doc) {
+                        app.run(doc);
+                    });
             });
         </script>
         <script>

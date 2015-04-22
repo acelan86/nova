@@ -1,24 +1,24 @@
 /* 原子数据格式， 所有的图片相关 */
-{
-    "src": "xx.png",
-    "owidth": 100,
-    "oheight": 100
-}
-/* 原子数据格式， 所有的文字相关 */
-{
-    "text": "文字",
-    "font-size": 13,
-    "line-height": 1.5,
-    "color": "#ccc",
-    "font-weight": "bold",
-    "font-style": "italic"
-}
-/* 原子数据格式， 所有的音乐相关 */
-{
-    "src" : "xx.mp3",
-    "loop": true,
-    "olength": 10, /*音乐长度，秒*/
-}
+// {
+//     "src": "xx.png",
+//     "owidth": 100,
+//     "oheight": 100
+// }
+// /* 原子数据格式， 所有的文字相关 */
+// {
+//     "text": "文字",
+//     "font-size": 13,
+//     "line-height": 1.5,
+//     "color": "#ccc",
+//     "font-weight": "bold",
+//     "font-style": "italic"
+// }
+// /* 原子数据格式， 所有的音乐相关 */
+// {
+//     "src" : "xx.mp3",
+//     "loop": true,
+//     "olength": 10, /*音乐长度，秒*/
+// }
 
 /* 对于每一个控件说明：
     控件最终生成的html结构大致如下
@@ -107,9 +107,9 @@
                     /* 样式， 公共部分 */
                     "styles": {
                         "background": {
-                            "color" : "#fff",
+                            "color" : "#fc0",
                             "image" : {
-                                "src": "xxxx.png",
+                                "src": "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=1952814213,3453404530&fm=58",
                                 "owidth": 100,
                                 "oheight": 100
                             }

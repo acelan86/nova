@@ -12,6 +12,23 @@ html{
     width:320px;
     height:480px;
 }
+.foreground{
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+    z-index: 91;
+    pointer-events: none;
+}
+.animate{
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}
+.active .animate{
+    -webkit-animation-play-state: running;
+    animation-play-state: running;
+}
 /* 缩略图列表，真实缩放 */
 .thumb-list{
     position:absolute;
